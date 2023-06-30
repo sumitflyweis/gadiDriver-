@@ -98,32 +98,11 @@ exports.userProfile1 = async (req, res) => {
       phone: phone,
     });
     if (!data || data.length == 0) {
-      // // Generate a random 6-digit OTP
       const otp = Math.floor(1000 + Math.random() * 9000);
-      console.log(otp);
-
-      // // Store the OTP for the phone number
-
-      // //otps[phone] = otp;
-      const newUser = await userSchema.create({
-        phone: phone,
-        otp: otp,
-      });
-
-      // Send the OTP to the user's phone number
-      // client.messages.create({
-      //   body: `Your OTP is ${otp}`,
-      //   from: "+16205071468",
-      //   to: phone,
-      // });
-
-      res
-        .status(200)
-        .send({ message: "data created successfully", newUser: newUser });
+      const newUser = await userSchema.create({ phone: phone, otp: otp, });
+      res.status(200).send({ message: "data created successfully", newUser: newUser });
     } else {
-      res.status(201).send({
-        message: "User profile already in db",
-      });
+      res.status(201).send({ message: "User profile already in db", });
     }
   } catch (err) {
     console.log(err);
@@ -151,7 +130,7 @@ exports.userUpdate = async (req, res) => {
     const data = {
       role: req.body.role,
     };
-    
+
     const user = await userSchema.findByIdAndUpdate(
       { _id: req.params.id },
       data,

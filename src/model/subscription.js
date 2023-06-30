@@ -8,11 +8,8 @@ const subscriptionSchema = mongoose.Schema(
     price: {
       type: String,
     },
-    startDate: {
-      type: String,
-    },
-    endDate: {
-      type: String,
+    details: {
+      type: Array,
     },
   },
   {

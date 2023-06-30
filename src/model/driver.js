@@ -62,7 +62,6 @@ const driverSchema = mongoose.Schema(
       default: "",
     },
     ///////////////////////////
-
     experience: [
       {
         companyName: {

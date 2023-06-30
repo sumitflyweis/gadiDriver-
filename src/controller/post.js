@@ -6,12 +6,7 @@ const Post = require("../model/post");
 exports.createPost = async (req, res) => {
   try {
     const { category, image_vedio, topic, desc } = req.body;
-    const newPost = new Post({
-      category,
-      image_vedio,
-      topic,
-      desc,
-    });
+    const newPost = new Post({category,image_vedio,topic,desc,});
     const savedPost = await newPost.save();
     res.status(201).json(savedPost);
   } catch (error) {
@@ -19,7 +14,6 @@ exports.createPost = async (req, res) => {
   }
 };
 
-// Controller function to get all posts
 exports.getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find().populate("category")
@@ -28,8 +22,6 @@ exports.getAllPosts = async (req, res) => {
     res.status(500).json({ error: "Failed to get posts" });
   }
 };
-
-// Controller function to get a specific post by ID
 exports.getPostById = async (req, res) => {
   try {
     const post = await Post.findById(req.params.postId).populate("category")
@@ -41,8 +33,6 @@ exports.getPostById = async (req, res) => {
     res.status(500).json({ error: "Failed to get post" });
   }
 };
-
-// Controller function to update a post by ID
 exports.updatePost = async (req, res) => {
   try {
     const { category, image_vedio, topic, desc } = req.body;
@@ -60,7 +50,6 @@ exports.updatePost = async (req, res) => {
   }
 };
 
-// Controller function to delete a post by ID
 exports.deletePost = async (req, res) => {
   try {
     const deletedPost = await Post.findByIdAndDelete(req.params.postId);
@@ -72,8 +61,6 @@ exports.deletePost = async (req, res) => {
     res.status(500).json({ error: "Failed to delete post" });
   }
 };
-
-// Controller function to like a post
 exports.likePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.postId);
@@ -87,8 +74,6 @@ exports.likePost = async (req, res) => {
     res.status(500).json({ error: "Failed to like post" });
   }
 };
-
-// Controller function to comment on a post
 exports.commentOnPost = async (req, res) => {
   try {
     const { comment } = req.body;
