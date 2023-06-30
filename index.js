@@ -36,6 +36,7 @@ app.use("/api/v1/languages",require("./src/route/different_Language"));
 app.use("/api/v1/auth", require("./src/route/authEmployee&Owner"));
 app.use("/api/v1/driverr", require("./src/route/driver"));
 app.use("/api/v1/locationn", require("./src/route/location"));
+app.use("/api/v1/jobType", require("./src/route/jobType"));
 app.use("/api/v1/categoryy", require("./src/route/category"));
 app.use("/api/v1/driver_experience", require("./src/route/driver_experience"));
 app.use("/api/v1/vehicletype", require("./src/route/vehicletype"));
