@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const helpController = require('../controller/faq');
+const helpController = require('../../controller/AdminController/helpAndSupport');
 
 // GET all help data
 router.get('/', helpController.getHelp);

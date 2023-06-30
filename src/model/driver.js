@@ -61,7 +61,6 @@ const driverSchema = mongoose.Schema(
       type: String,
       default: "",
     },
-    ///////////////////////////
     experience: [
       {
         companyName: {
@@ -90,7 +89,6 @@ const driverSchema = mongoose.Schema(
         },
       },
     ],
-    ////////////////////////////////
     frontImage: {
       type: String,
       default:
@@ -101,12 +99,10 @@ const driverSchema = mongoose.Schema(
       default:
         "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.simplilearn.com%2Fimage-processing-article&psig=AOvVaw1kvCFmU96sIc0v4VgaPKW8&ust=1682860597316000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCODu37iWz_4CFQAAAAAdAAAAABAE",
     },
-    ////////////////////////////////////
     photoUpload: {
       type: String,
       default: "https://tinyurl.com/5ahwwkv6",
     },
-    //////////////////////////
     jobServicesId: {
       type: objectid,
       ref: "jobService",

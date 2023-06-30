@@ -1,9 +1,9 @@
-const Help = require('../model/faq');
+const Help = require('../../model/faq');
 
 exports.getHelp = async (req, res) => {
   try {
     const help = await Help.find();
-    res.status(200).json({msg:help});
+    res.status(200).json({ msg: help });
   } catch (error) {
     res.status(500).json({ error: 'Error retrieving help data' });
   }
@@ -11,7 +11,7 @@ exports.getHelp = async (req, res) => {
 
 exports.createHelp = async (req, res) => {
   try {
-    const {  desc } = req.body;
+    const { desc } = req.body;
     const help = await Help.create({ desc });
     res.status(201).json(help);
   } catch (error) {
@@ -22,8 +22,8 @@ exports.createHelp = async (req, res) => {
 exports.updateHelp = async (req, res) => {
   try {
     const { id } = req.params;
-    const {  desc } = req.body;
-    const help = await Help.findByIdAndUpdate(id, {  desc }, { new: true });
+    const { desc } = req.body;
+    const help = await Help.findByIdAndUpdate(id, { desc }, { new: true });
     res.status(200).json(help);
   } catch (error) {
     res.status(500).json({ error: 'Error updating help data' });

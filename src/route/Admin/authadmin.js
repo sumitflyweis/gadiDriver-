@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const UserController = require("../controller/authadmin");
+const UserController = require("../../controller/AdminController/authadmin");
 
 // create a user
 router.post("/", UserController.createUser);

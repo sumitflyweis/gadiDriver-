@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const jobTypeController = require("../controller/jobType");
+const jobTypeController = require("../../controller/AdminController/jobType");
 
 router.get("/", jobTypeController.getJobType);
 router.post("/", jobTypeController.createJobType);

@@ -1,10 +1,7 @@
-const User = require("../model/authadmin");
+const User = require("../../model/authadmin");
 const bcrypt = require("bcryptjs")
-const jwt =require("jsonwebtoken")
+const jwt = require("jsonwebtoken")
 const nodemailer = require('nodemailer');
-
-
-
 exports.createUser = async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
@@ -28,12 +25,6 @@ exports.createUser = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 }
-
-
-
-
-
-// get all users
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
@@ -42,8 +33,6 @@ exports.getAllUsers = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
-
-// get a user by ID
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
@@ -55,8 +44,6 @@ exports.getUserById = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
-
-
 exports.updateUserById = async (req, res) => {
   const { id } = req.params;
   const { name, email, password, role } = req.body;
@@ -83,23 +70,20 @@ exports.updateUserById = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 }
-
-
-
 exports.updatepaswwordd = async (req, res) => {
   const { id } = req.params
-  const {  password, confirmpassword } = req.body;
+  const { password, confirmpassword } = req.body;
 
   try {
-    
+
     const admin = await User.findById(id);
     if (!admin) return res.status(404).json({ message: "Admin not found" });
 
     // Hash the new password
     // const salt = await bcrypt.genSalt(10);
     // const hashedPassword = await bcrypt.hash(password, salt);
-    if(password != confirmpassword ){
-      res.status.send({msg:"not match"})
+    if (password != confirmpassword) {
+      res.status.send({ msg: "not match" })
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword1 = await bcrypt.hash(password, salt);
@@ -120,9 +104,6 @@ exports.updatepaswwordd = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 }
-
-
-// delete a user by ID
 exports.deleteUserById = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.userId);
@@ -134,8 +115,6 @@ exports.deleteUserById = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
-
-// user login
 exports.login = async (req, res) => {
   try {
     const { name, password } = req.body;
@@ -146,28 +125,25 @@ exports.login = async (req, res) => {
 
 
     const passwordIsValid = bcrypt.compareSync(
-        password,
-        user.password
-      );
-      if (!passwordIsValid) {
-        return res.status(401).send({
-          message: "Wrong password",
-        });
-      }
+      password,
+      user.password
+    );
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: "Wrong password",
+      });
+    }
 
     const accessToken = jwt.sign({ id: user._id }, process.env.SECRET, {
-        expiresIn: "1d",
-      });
+      expiresIn: "1d",
+    });
     return res.status(200).json({ user, accessToken });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 }
-
-
-
 exports.resetpassword = async (req, res) => {
-  const { email ,password} = req.body;
+  const { email, password } = req.body;
 
   try {
     // Check if the admin exists
@@ -201,10 +177,10 @@ exports.resetpassword = async (req, res) => {
       host: 'smtp.ethereal.email',
       port: 587,
       auth: {
-          user: 'cassidy.braun21@ethereal.email',
-          pass: 'Wtgd6EJsh2bN3YbUhm'
+        user: 'cassidy.braun21@ethereal.email',
+        pass: 'Wtgd6EJsh2bN3YbUhm'
       }
-  });
+    });
 
     const mailOptions = {
       from: 'node3@flyweis.technology',
@@ -226,11 +202,6 @@ exports.resetpassword = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 }
-
-
-
-
-
 exports.forgetpassword = async (req, res) => {
   const { email } = req.body;
 
@@ -268,10 +239,10 @@ exports.forgetpassword = async (req, res) => {
       host: 'smtp.ethereal.email',
       port: 587,
       auth: {
-          user: 'sandy.anderson@ethereal.email',
-          pass: 'K26Eg8zmEvkHuAYBYm'
+        user: 'sandy.anderson@ethereal.email',
+        pass: 'K26Eg8zmEvkHuAYBYm'
       }
-  });
+    });
 
     const mailOptions = {
       from: 'node3@flyweis.technology',
@@ -288,13 +259,11 @@ exports.forgetpassword = async (req, res) => {
       }
     });
 
-    res.json({msg:updatedAdmin,otp:otp});
+    res.json({ msg: updatedAdmin, otp: otp });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 }
-
-
 exports.verifyadminotp = async (req, res) => {
   try {
     const { /*phone,*/ otp } = req.body;
@@ -326,9 +295,6 @@ exports.verifyadminotp = async (req, res) => {
     return res.status(400).send({ message: err.message });
   }
 };
-
-
-
 // exports.forgotPasswordToken = asyncHandler(async (req, res) => {
 //   const { email } = req.body;
 //   const user = await User.findOne({ email });

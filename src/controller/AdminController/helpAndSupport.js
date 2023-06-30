@@ -1,9 +1,9 @@
-const Help = require('../model/helpAndSupport');
+const Help = require('../../model/helpAndSupport');
 
 exports.getHelp = async (req, res) => {
   try {
     const help = await Help.find();
-    res.status(200).json({msg:help});
+    res.status(200).json({ msg: help });
   } catch (error) {
     res.status(500).json({ error: 'Error retrieving help data' });
   }

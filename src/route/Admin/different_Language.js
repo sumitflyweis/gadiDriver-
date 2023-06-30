@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const languageController = require("../controller/different_Language");
+const languageController = require("../../controller/AdminController/different_Language");
 
 // Create a new language
 router.post("/", languageController.createLanguage);

@@ -1,4 +1,4 @@
-const Language = require("../model/different_Language");
+const Language = require("../../model/different_Language");
 const axios = require('axios');
 
 
@@ -38,7 +38,7 @@ exports.createLanguage = async (req, res) => {
     console.log("hi")
     const { language } = req.body;
 
-    const data = await Language.create ({ language: language });
+    const data = await Language.create({ language: language });
     res.status(201).json(data);
 
   } catch (error) {
