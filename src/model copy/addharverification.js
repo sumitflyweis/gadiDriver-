@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 const objectid = mongoose.Schema.Types.ObjectId;
-const aadharSchema = mongoose.Schema(
+const aadharNumSchema = mongoose.Schema(
   {
-    userId: {
-      type: objectid,
-      ref: "users"
-    },
     aadhaar_number: {
       type: String,
     },
@@ -21,4 +17,4 @@ const aadharSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("aadhar", aadharSchema);
+module.exports = mongoose.model("aadharNum", aadharNumSchema);

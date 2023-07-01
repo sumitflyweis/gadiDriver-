@@ -1,13 +1,23 @@
-const User = require("../../model/userModel");
+const User = require("../../model/authadmin");
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const nodemailer = require('nodemailer');
 exports.createUser = async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newAdmin = new User({ name, email, password: hashedPassword, role, });
+
+    // Create new admin object with hashed password
+    const newAdmin = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
+    // Save new admin to database
     const savedAdmin = await newAdmin.save();
     res.json(savedAdmin);
   } catch (err) {
@@ -15,11 +25,105 @@ exports.createUser = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 }
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    return res.status(200).json({ users });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+exports.getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).json({ user });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+exports.updateUserById = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, password, role } = req.body;
+
+  try {
+    // Check if the admin exists
+    const admin = await User.findById(id);
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Update the admin object with the new data
+    admin.name = name;
+    admin.email = email;
+    admin.password = hashedPassword;
+    admin.role = role;
+
+    // Save the updated admin object to the database
+    const updatedAdmin = await admin.save();
+    res.json(updatedAdmin);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+exports.updatepaswwordd = async (req, res) => {
+  const { id } = req.params
+  const { password, confirmpassword } = req.body;
+
+  try {
+
+    const admin = await User.findById(id);
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+    // Hash the new password
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(password, salt);
+    if (password != confirmpassword) {
+      res.status.send({ msg: "not match" })
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword1 = await bcrypt.hash(password, salt);
+    const hashedPassword2 = await bcrypt.hash(confirmpassword, salt);
+    admin.password = hashedPassword1
+    admin.confirmpassword = hashedPassword2
+
+
+    // admin.username = username
+    // admin.email = email
+    // admin.password = hashedPassword
+    // admin.role = role
+
+    // Save the updated admin object to the database
+    const updatedAdmin = await admin.save();
+    res.json(updatedAdmin);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+exports.deleteUserById = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).json({ message: "User deleted successfully" });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) { return res.status(401).json({ error: "Invalid email or password" }); }
+    const { name, password } = req.body;
+    const user = await User.findOne({ name });
+    if (!user) {
+      return res.status(401).json({ error: "Invalid username or password" });
+    }
+
+
     const passwordIsValid = bcrypt.compareSync(
       password,
       user.password
@@ -38,88 +142,37 @@ exports.login = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
-exports.getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find({ role: "EMPLOYER" });
-    if (users.length == 0) {
-      return res.status(404).json({ status: 404, message: "User not found" });
-    } else {
-      return res.status(200).json({ status: 200, message: "All Employee found.", data: users, });
-    }
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-}
-exports.getAllDrivers = async (req, res) => {
-  try {
-    const users = await User.find({ role: "DRIVER" });
-    if (users.length == 0) {
-      return res.status(404).json({ status: 404, message: "User not found" });
-    } else {
-      return res.status(200).json({ status: 200, message: "All Driver found.", data: users, });
-    }
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-}
-exports.getUserById = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.userId);
-    if (!user) {
-      return res.status(404).json({ status: 404, message: "User not found" });
-    }
-    return res.status(200).json({ status: 200, message: "user found.", data: user, });
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-}
-exports.updateUser = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-    const admin = await User.findById({ _id: req.user._id });
-    if (!admin) {
-      return res.status(404).json({ status: 404, message: "Admin not found" });
-    } else {
-      let hashedPassword;
-      if (password != (null || undefined)) {
-        const salt = await bcrypt.genSalt(10);
-        hashedPassword = await bcrypt.hash(password, salt);
-      }
-      let obj = {
-        name: name || admin.name,
-        email: email || admin.email,
-        password: hashedPassword || admin.password,
-        role: admin.role,
-      }
-      let update = await User.findByIdAndUpdate({ _id: admin._id }, { $set: obj }, { new: true })
-      if (update) {
-        return res.status(200).json({ status: 200, message: "Admin Profile update" });
-      }
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-}
-exports.deleteUserById = async (req, res) => {
-  try {
-    const user = await User.findByIdAndDelete(req.params.userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    return res.status(200).json({ message: "User deleted successfully" });
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-}
 exports.resetpassword = async (req, res) => {
   const { email, password } = req.body;
+
   try {
+    // Check if the admin exists
     const admin = await User.findOne({ email });
     if (!admin) return res.status(404).json({ message: " not found" });
+
+    // Generate a random password
+    //const newPassword = password//Math.random().toString(36).slice(-8);
+
+    // Hash the new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Update the admin object with the new password
     admin.password = hashedPassword;
+
+    // Save the updated admin object to the database
     const updatedAdmin = await admin.save();
+
+    // Send password reset email
+    // const transporter = nodemailer.createTransport({
+    //   service: 'gmail',
+    //   auth: {
+    //     user: '',
+    //     pass: ''
+    //   }
+    // });
+
+
     const transporter = nodemailer.createTransport({
       host: 'smtp.ethereal.email',
       port: 587,
@@ -153,12 +206,32 @@ exports.forgetpassword = async (req, res) => {
   const { email } = req.body;
 
   try {
+    // Check if the admin exists
     const admin = await User.findOne({ email });
     if (!admin) return res.status(404).json({ message: " not found" });
+
+    // Generate a random password
+    //const newPassword = password//Math.random().toString(36).slice(-8);
+
+    // Hash the new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(admin.password, salt);
+
+    // Update the admin object with the new password
     admin.password = hashedPassword;
+
+    // Save the updated admin object to the database
     const updatedAdmin = await admin.save();
+
+    // Send password reset email
+    // const transporter = nodemailer.createTransport({
+    //   service: 'gmail',
+    //   auth: {
+    //     user: '',
+    //     pass: ''
+    //   }
+    // });
+
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     updatedAdmin.otp = otp
     await updatedAdmin.save()

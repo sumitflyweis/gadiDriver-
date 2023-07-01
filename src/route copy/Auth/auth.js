@@ -1,6 +1,6 @@
 const express = require('express');
 const customerRouter = express.Router();
-const auth = require('../../controller/Auth');
+const auth = require('../../controller/Main/Auth');
 const authJwt = require('../../middlewares/authJwt')
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");

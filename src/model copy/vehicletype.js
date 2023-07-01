@@ -5,6 +5,10 @@ const vehicleSchema = mongoose.Schema(
     vehicletype: {
       type: String,
     },
-  }, { timestamps: true, }
+  },
+  {
+    timestamps: true,
+  }
 );
+
 module.exports = mongoose.model("vehicletype", vehicleSchema);

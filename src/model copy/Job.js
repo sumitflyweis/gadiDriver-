@@ -2,22 +2,25 @@ const mongoose = require("mongoose");
 const objectid = mongoose.Schema.Types.ObjectId;
 const jobService_Schema = mongoose.Schema(
   {
-    employer: {
+    userId: {
       type: objectid,
-      ref: "employer",
-      // enum:["individual","company"]
+      ref: "users",
+    },
+    companyType: {
+      type: String,
+      enum: ["COMPANY", "INDIVISUAL"],
     },
     jobtitle: {
       type: String,
       default: "",
     },
     jobtype: {
-      type: String,
-      default: "",
+      type: objectid,
+      ref: "jobType",
     },
     vehicletype: {
-      type: String,
-      default: "",
+      type: objectid,
+      ref: "vehicletype",
     },
     gender: {
       type: String,
@@ -45,9 +48,8 @@ const jobService_Schema = mongoose.Schema(
     },
     image: {
       type: String,
-      default: "https://tinyurl.com/5ahwwkv6",
+      default: "",
     },
-    ///////////////////////////////////
     salaryOffer: {
       type: String,
       default: "",
@@ -72,7 +74,6 @@ const jobService_Schema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    /////////////////////////////////
     fullName: {
       type: String,
       default: "",
@@ -89,13 +90,10 @@ const jobService_Schema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    /////////////////////////////////////
-    uploadImage: {
+    vehicalImage: {
       type: String,
-      // default: "https://tinyurl.com/5ahwwkv6",
       default: "",
     },
-    //////////////////////////
     detailsOfCompany: {
       type: String,
       default: "",
@@ -104,34 +102,15 @@ const jobService_Schema = mongoose.Schema(
       type: String,
       default: "",
     },
-    ///////////////////////////////
-    password: {
-      type: String,
-      default: "",
-    },
-    confirmpassword: {
-      type: String,
-      default: "",
-    },
-    /////////////////////////
     viewed_count: {
       type: Number,
       default: 0,
     },
-    subscription: {
-      type: objectid,
-      ref: "subscription",
+    status: {
+      type: String,
+      default: ""
     },
-    ///////////////////////////
-    status:{
-      type:String,
-      default:""
-    },
-  },
-
-  {
-    timestamps: true,
-  }
+  }, { timestamps: true, }
 );
 
-module.exports = mongoose.model("jobService", jobService_Schema);
+module.exports = mongoose.model("Job", jobService_Schema);

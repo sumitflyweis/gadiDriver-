@@ -3,6 +3,9 @@ const path = require("path");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const userSchema = require("../../model/userModel");
+const axios = require("axios");
+const AadharMatch = require("../../model/aadhar");
+const addharcard = require("../../model/addharverification");
 exports.login = async (req, res) => {
   try {
     const { phone, role, gender } = req.body;
@@ -96,6 +99,80 @@ exports.updateDocument = async (req, res) => {
       req.body.frontImage = front[0].path;
       req.body.backImage = back[0].path;
       const driver = await userSchema.findOneAndUpdate({ _id: findUser._id }, { $set: { frontImage: req.body.frontImage, backImage: req.body.backImage, } }, { new: true });
+      return res.status(200).json({ status: 200, message: "Experiance detail update.", data: driver });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the driver." });
+  }
+};
+exports.addharotp = async (req, res) => {
+  try {
+    const { aadhaar_number } = req.body;
+    const newBeneficiary = new addharcard({ aadhaar_number });
+    const clientId = "CF458155CI63HMEOJF7QM277LKR0";
+    const clientSecret = "5a7d205372069c3fda85e52f8c3072b0ea4cc683";
+    const headers = { "x-api-version": "2023-03-01", "Content-Type": "application/json", "X-Client-ID": clientId, "X-Client-Secret": clientSecret, };
+    const response = await axios.post("https://api.cashfree.com/verification/offline-aadhaar/otp", newBeneficiary, { headers: headers, });
+    const createdBeneficiary = response.data;
+    if (createdBeneficiary) {
+      let obj = {
+        userId: req.user._id,
+        aadhaar_number: aadhaar_number,
+        ref_id: createdBeneficiary.ref_id,
+      };
+      let Save = await AadharMatch.create(obj);
+      res.status(200).json(Save);
+    }
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+exports.verifyaddharotp = async (req, res) => {
+  try {
+    const { otp, ref_id } = req.body;
+    const newBeneficiary = new addharcard({ otp, ref_id });
+    const clientId = "CF458155CI63HMEOJF7QM277LKR0";
+    const clientSecret = "5a7d205372069c3fda85e52f8c3072b0ea4cc683";
+    const headers = { "x-api-version": "2023-03-01", "Content-Type": "application/json", "X-Client-ID": clientId, "X-Client-Secret": clientSecret, };
+    const response = await axios.post("https://api.cashfree.com/verification/offline-aadhaar/verify", newBeneficiary, { headers: headers, });
+    const createdBeneficiary = response.data;
+    console.log(createdBeneficiary)
+    res.status(201).json(createdBeneficiary);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+exports.userUpdateprofile = async (req, res) => {
+  try {
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "User Not found.", status: 404 });
+    } else {
+      let fileUrl;
+      if (req.file) {
+        fileUrl = req.file ? req.file.path : "";
+      }
+      const user = await userSchema.findOneAndUpdate({ _id: findUser._id }, { $set: { photoUpload: fileUrl || findUser.photoUpload } }, { new: true });
+      return res.status(200).json({ msg: "profile updated successfully", user: user });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: error.message, name: error.name });
+  }
+};
+exports.updateCompanyType = async (req, res) => {
+  try {
+    const { companyType } = req.body;
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "User Not found.", status: 404 });
+    } else {
+      const driver = await userSchema.findOneAndUpdate({ _id: findUser._id }, { $set: { companyType: companyType } }, { new: true });
       return res.status(200).json({ status: 200, message: "Experiance detail update.", data: driver });
     }
   } catch (error) {

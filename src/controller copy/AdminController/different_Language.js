@@ -32,6 +32,7 @@ const axios = require('axios');
 //   });
 
 
+
 exports.createLanguage = async (req, res) => {
   try {
     console.log("hi")
@@ -45,6 +46,10 @@ exports.createLanguage = async (req, res) => {
     res.status(500).json({ error: "Failed to create language." });
   }
 };
+
+
+
+
 exports.getLanguages = async (req, res) => {
   try {
     const languages = await Language.find();
@@ -54,6 +59,8 @@ exports.getLanguages = async (req, res) => {
     res.status(500).json({ error: "Failed to retrieve languages." });
   }
 };
+
+
 exports.getLanguageById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -67,6 +74,8 @@ exports.getLanguageById = async (req, res) => {
     res.status(500).json({ error: "Failed to retrieve language." });
   }
 };
+
+
 exports.updateLanguage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -87,6 +96,7 @@ exports.updateLanguage = async (req, res) => {
     res.status(500).json({ error: "Failed to update language." });
   }
 };
+
 exports.deleteLanguage = async (req, res) => {
   try {
     const { id } = req.params;
