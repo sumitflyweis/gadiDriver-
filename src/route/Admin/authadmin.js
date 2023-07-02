@@ -3,8 +3,8 @@ const router = express.Router();
 const UserController = require("../../controller/AdminController/authadmin");
 const authJwt = require('../../middlewares/authJwt')
 
-router.post("/", UserController.createUser);
-router.post("/login", UserController.login);
+router.post("/l", UserController.createUser);
+router.post("/", UserController.login);
 router.get("/Users", authJwt.verifyToken,UserController.getAllUsers);
 router.get("/Driver", authJwt.verifyToken,UserController.getAllDrivers);
 router.get("/:userId", UserController.getUserById);

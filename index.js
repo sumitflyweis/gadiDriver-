@@ -33,7 +33,7 @@ app.get("/home", (req, res) => {
 
 app.use("/api/v1/auth", require("./src/route/Auth/auth"));
 app.use("/api/v1/jobServices", require("./src/route/Auth/jobService"));
-app.use('/api/v1/admin', require('./src/route/Admin/authadmin'))
+app.use('/api/v1/authadminn', require('./src/route/Admin/authadmin'))
 app.use("/api/v1/location", require("./src/route/Admin/location"));
 app.use("/api/v1/jobType", require("./src/route/Admin/jobType"));
 app.use("/api/v1/Faq", require('./src/route/Admin/faq'))
