@@ -1,0 +1,1812 @@
+{
+	"info": {
+		"_postman_id": "7bb180a9-8838-4ba7-bb02-6731e84e53f5",
+		"name": "GADI_DRIVER update",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "15173170"
+	},
+	"item": [
+		{
+			"name": "Admin Auth",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Admin\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"admin\",\r\n    \"role\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/admin"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"qwerty\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/admin/login"
+					},
+					"response": []
+				},
+				{
+					"name": "getall Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODIxMzYwNywiZXhwIjoxNjg4MzAwMDA3fQ.warhxQe0uMN2fCjPHfBHiO6vy69DKoQmzuo0PDpthQo"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/admin/Users"
+					},
+					"response": []
+				},
+				{
+					"name": "getall Driver",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODIxMzYwNywiZXhwIjoxNjg4MzAwMDA3fQ.warhxQe0uMN2fCjPHfBHiO6vy69DKoQmzuo0PDpthQo"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/admin/Driver"
+					},
+					"response": []
+				},
+				{
+					"name": "getbyid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/admin/649ec9cc466dace8ed3293e7"
+					},
+					"response": []
+				},
+				{
+					"name": "updateProfile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODIxNDc4MiwiZXhwIjoxNjg4MzAxMTgyfQ.LLzytUnIbc3623JyjGPptH0qPPvqOntwsMcmQAeGcXU"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"abc\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"qwerty\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/admin/updateProfile"
+					},
+					"response": []
+				},
+				{
+					"name": "updatepaswwordd",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"qwerty@123\",\r\n    \"confirmpassword\":\"qwerty@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/authadminn/updatepaswwordd/648c00ec040c18f7f7afe597"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/authadminn/648c00ec040c18f7f7afe597"
+					},
+					"response": []
+				},
+				{
+					"name": "resetpassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"qwerty@1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/authadminn/resetpassword"
+					},
+					"response": []
+				},
+				{
+					"name": "forgetpassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"abc@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/authadminn/forgetpassword"
+					},
+					"response": []
+				},
+				{
+					"name": "verifyadminotp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"otp\": \"561621\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://gadi-driver-u8ym.vercel.app/api/v1/authadminn/verifyadminotp"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "craete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"Car Service\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/category"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/category"
+					},
+					"response": []
+				},
+				{
+					"name": "getbyid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/category/649ea8814828d9f7125840c8"
+					},
+					"response": []
+				},
+				{
+					"name": "upadte",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"bus service\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/category/649ea8814828d9f7125840c8"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/category/6458e63d7df7c64c57f8faba"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category interest",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"road safety\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/categoryInterest"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/categoryInterest"
+					},
+					"response": []
+				},
+				{
+					"name": "getbyid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/categoryInterest/646751fee401895da4d00d33"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"training programs\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/categoryInterest/646751fee401895da4d00d33"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/categoryInterest/646751d8e401895da4d00d30"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "different language",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"language\" :\"Hindi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/languages"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/languages"
+					},
+					"response": []
+				},
+				{
+					"name": "getby id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/languages/64a0fc0ccdc8e8ba7eca4361"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"language\" :\"hindi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/languages/6458ac53b8731bffacccb2f7"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/languages/6458ac53b8731bffacccb2f7"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Driver and employer",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"7983270583\",\r\n    \"role\": \"DRIVER\",\r\n    \"gender\": \"Male\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "verify otp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"otp\": \"520424\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/verify/649ec9cc466dace8ed3293e7"
+					},
+					"response": [
+						{
+							"name": "4:10 2/7/2023",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"otp\": \"520424\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:3006/api/v1/auth/verify/649ec9cc466dace8ed3293e7"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1679"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"68f-bGj9seAP4oN8hfRbGyve9KtfwZk\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Jul 2023 10:40:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"logged in successfully\",\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70\",\n    \"profileComplete\": false,\n    \"data\": {\n        \"name\": \"\",\n        \"refferalCode\": \"\",\n        \"wallet\": 0,\n        \"image\": \"\",\n        \"password\": \"\",\n        \"confirmpassword\": \"\",\n        \"website\": \"\",\n        \"jobServicesId\": [],\n        \"subscriptionVerification\": false,\n        \"followers\": [],\n        \"followerCount\": 0,\n        \"jobPostCount\": 0,\n        \"_id\": \"649ec9cc466dace8ed3293e7\",\n        \"phone\": \"7983270583\",\n        \"otp\": \"520424\",\n        \"otpVerification\": true,\n        \"otpExpire\": \"2023-07-02T10:45:14.124Z\",\n        \"role\": \"DRIVER\",\n        \"profileComplete\": false,\n        \"gender\": \"Male\",\n        \"firstName\": \"gadi\",\n        \"lastName\": \"driver\",\n        \"ResumeTitle\": \"car driver\",\n        \"exactAddress\": \"sector 58\",\n        \"militaryService\": \"no\",\n        \"DateOfBirth\": \"1998-05-10\",\n        \"licienceNumber\": \"1231423543646\",\n        \"email\": \"\",\n        \"interest\": \"\",\n        \"frontImage\": \"https://res.cloudinary.com/dbrvq9uxa/image/upload/v1688130990/images/image/dkp4ketuibkhpxu4dch8.png\",\n        \"backImage\": \"https://res.cloudinary.com/dbrvq9uxa/image/upload/v1688130990/images/image/opazwd6x1efrfxrmretz.jpg\",\n        \"photoUpload\": \"https://res.cloudinary.com/dbrvq9uxa/image/upload/v1688205410/images/image/ppsimvjkprj7udfkopaj.jpg\",\n        \"employerAction\": \"\",\n        \"viewed\": false,\n        \"experience\": [\n            {\n                \"companyName\": \"abc\",\n                \"jobTitle\": \"driver\",\n                \"vehicletype\": \"645a30bb3a6990f0114aa702\",\n                \"starttime\": \"01/02/2021\",\n                \"endtime\": \"01/11/2022\",\n                \"Status\": \"yes\",\n                \"_id\": \"649ed2e590198c1fdad38420\"\n            }\n        ],\n        \"createdAt\": \"2023-06-30T12:25:48.930Z\",\n        \"updatedAt\": \"2023-07-02T10:40:44.782Z\",\n        \"__v\": 0,\n        \"category\": \"6458e6327df7c64c57f8fab8\",\n        \"language\": \"6458ac53b8731bffacccb2f7\",\n        \"location\": \"6458dfff4414d9cd0b5347bd\",\n        \"following\": [\n            \"64a004c541d5bbfc791b8552\"\n        ],\n        \"followingCount\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "getProfile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/auth/getProfile"
+					},
+					"response": []
+				},
+				{
+					"name": "post Resume",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"gadi\",\r\n    \"lastName\": \"driver\",\r\n    \"ResumeTitle\": \"car driver\",\r\n    \"location\": \"6458dfff4414d9cd0b5347bd\",\r\n    \"exactAddress\": \"sector 58\",\r\n    \"category\": \"6458e6327df7c64c57f8fab8\",\r\n    \"language\": \"6458ac53b8731bffacccb2f7\",\r\n    \"militaryService\": \"no\",\r\n    \"DateOfBirth\": \"1998-05-10\",\r\n    \"licienceNumber\": \"1231423543646\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/createDriver"
+					},
+					"response": []
+				},
+				{
+					"name": "updateExperience",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"experience\": [\r\n        {\r\n            \"companyName\": \"abc\",\r\n            \"jobTitle\": \"driver\",\r\n            \"vehicletype\": \"645a30bb3a6990f0114aa702\",\r\n            \"starttime\": \"01/02/2021\",\r\n            \"endtime\": \"01/11/2022\",\r\n            \"Status\": \"yes\"\r\n        },\r\n        {\r\n            \"companyName\": \"abc\",\r\n            \"jobTitle\": \"driver\",\r\n            \"vehicletype\": \"645a30bb3a6990f0114aa702\",\r\n            \"starttime\": \"01/02/2021\",\r\n            \"endtime\": \"01/11/2022\",\r\n            \"Status\": \"yes\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/updateExperience"
+					},
+					"response": []
+				},
+				{
+					"name": "updateDocument",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "frontImage",
+									"type": "file",
+									"src": "Mt9uSVtgY/1682675316509_image_iiiiiiii.png"
+								},
+								{
+									"key": "backImage",
+									"type": "file",
+									"src": "bs65T-vES/download.jpg"
+								}
+							]
+						},
+						"url": "localhost:3006/api/v1/auth/updateDocument"
+					},
+					"response": []
+				},
+				{
+					"name": "addharotp",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"aadhaar_number\": \"352717160739\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/addharotp"
+					},
+					"response": []
+				},
+				{
+					"name": "verifyadminotp",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"otp\": \"472657\",\r\n    \"ref_id\": \"3173981\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/verifyadminotp"
+					},
+					"response": []
+				},
+				{
+					"name": "userUpdateprofile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "vCFKwFoEt/wepik-photo-mode-202285-143511.jpeg"
+								}
+							]
+						},
+						"url": "localhost:3006/api/v1/auth/userUpdateprofile"
+					},
+					"response": []
+				},
+				{
+					"name": "updateCompanyType",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"companyType\":\"\"\r\n}\r\n// COMPANY\", \"INDIVISUAL",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/updateCompanyType"
+					},
+					"response": []
+				},
+				{
+					"name": "updateEmployeeDetails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"details\": \"\",\r\n    \"email\": \"\",\r\n    \"exactAddress\": \"\",\r\n    \"phone\": \"\",\r\n    \"website\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/updateEmployeeDetails"
+					},
+					"response": []
+				},
+				{
+					"name": "followUnFollow",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "localhost:3006/api/v1/auth/followUnFollow/64a004c541d5bbfc791b8552"
+					},
+					"response": []
+				},
+				{
+					"name": "giveRating",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 5,\r\n    \"comment\": \"Job provider\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/giveRating/64a004c541d5bbfc791b8552"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "faq",
+			"item": [
+				{
+					"name": "craete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"question\": \"What is faq?\",\r\n    \"answer\": \"FAQ is frequently ask question.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/Faq"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/Faq"
+					},
+					"response": []
+				},
+				{
+					"name": "upadte",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"question\": \"What is faq?\",\r\n    \"answer\": \"FAQ is frequently ask question.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/Faq/64a100446865d461176a3404"
+					},
+					"response": []
+				},
+				{
+					"name": "get byid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/Faq/64a100446865d461176a3404"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/Faq/6458e63d7df7c64c57f8faba"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "location",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\":\"noida\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/locationn"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/location"
+					},
+					"response": []
+				},
+				{
+					"name": "getby id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/location/649e9dec24abbe3d5a38407a"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"noida sector 59\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/location/6458dfff4414d9cd0b5347bd"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/location/6458dfff4414d9cd0b5347bd"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Job",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAwNGM1NDFkNWJiZmM3OTFiODU1MiIsImlhdCI6MTY4ODIwODYwNSwiZXhwIjoxNjg4Mjk1MDA1fQ.8J_HfIXCy080tlSPeKMXhCFz09wQBkAJzrrfyZZ5p-I"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "D8V_Goglv/user (2).jfif"
+								},
+								{
+									"key": "jobtitle",
+									"value": "driver",
+									"type": "text"
+								},
+								{
+									"key": "jobtype",
+									"value": "649eb46ddc1175c2a47631f6",
+									"type": "text"
+								},
+								{
+									"key": "vehicletype",
+									"value": "649e8b0b06f01a53ff7de034",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "asfdgfdghhg",
+									"type": "text"
+								},
+								{
+									"key": "contactNumber",
+									"value": "3456985685",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "noida sector 57",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "rudra building1",
+									"type": "text"
+								},
+								{
+									"key": "postalCode",
+									"value": "263139",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3006/api/v1/jobServices/createJobService"
+					},
+					"response": []
+				},
+				{
+					"name": "getJobServicebyToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAwNGM1NDFkNWJiZmM3OTFiODU1MiIsImlhdCI6MTY4ODIwODYwNSwiZXhwIjoxNjg4Mjk1MDA1fQ.8J_HfIXCy080tlSPeKMXhCFz09wQBkAJzrrfyZZ5p-I"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/getJobServicebyToken"
+					},
+					"response": []
+				},
+				{
+					"name": "salarayAndExpectation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAwNGM1NDFkNWJiZmM3OTFiODU1MiIsImlhdCI6MTY4ODIwODYwNSwiZXhwIjoxNjg4Mjk1MDA1fQ.8J_HfIXCy080tlSPeKMXhCFz09wQBkAJzrrfyZZ5p-I"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"salaryOffer\": \"Rs 25000\",\r\n    \"totalExperience\": \"3 year\",\r\n    \"qualification\": \"graduate\",\r\n    \"language\": \"6458ac53b8731bffacccb2f7\",\r\n    \"closeDate\": \"2023-06-10\",\r\n    \"autoClose\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/jobServices/salarayAndExpectation/64a004ee41d5bbfc791b8558"
+					},
+					"response": []
+				},
+				{
+					"name": "updateJobServices",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAwNGM1NDFkNWJiZmM3OTFiODU1MiIsImlhdCI6MTY4ODIwODYwNSwiZXhwIjoxNjg4Mjk1MDA1fQ.8J_HfIXCy080tlSPeKMXhCFz09wQBkAJzrrfyZZ5p-I"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"fly\",\r\n    \"email\": \"fly@gmail.com\",\r\n    \"applicantChatYouDirectly\": true,\r\n    \"startChat\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/jobServices/updateJobServices/64a004ee41d5bbfc791b8558"
+					},
+					"response": []
+				},
+				{
+					"name": "updateJobImage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAwNGM1NDFkNWJiZmM3OTFiODU1MiIsImlhdCI6MTY4ODIwODYwNSwiZXhwIjoxNjg4Mjk1MDA1fQ.8J_HfIXCy080tlSPeKMXhCFz09wQBkAJzrrfyZZ5p-I"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "KluwzJuHK/download (3).jpg"
+								}
+							]
+						},
+						"url": "localhost:3006/api/v1/jobServices/updateJobImage/64a004ee41d5bbfc791b8558"
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices"
+					},
+					"response": []
+				},
+				{
+					"name": "getby id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/6464ce321491e8e8c0d553d4"
+					},
+					"response": []
+				},
+				{
+					"name": "applied on job",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/applied/64a004ee41d5bbfc791b8558"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllpendingJob",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/job/getAllpendingJob"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllApprovedJob",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/job/getAllApprovedJob"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllRejectJob",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/job/getAllRejectJob"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllWithdrawJob",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/job/getAllWithdrawJob"
+					},
+					"response": []
+				},
+				{
+					"name": "get job applicant by jobId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/job/64a004ee41d5bbfc791b8558"
+					},
+					"response": []
+				},
+				{
+					"name": "get job applicant by jobId Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/jobApplicatnatbyId/64a166abfef1d891f9ca5b22"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Job Type",
+			"item": [
+				{
+					"name": "jobType",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobType\":\"Driver\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/jobType"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobType"
+					},
+					"response": []
+				},
+				{
+					"name": "getby id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobType/649eb46ddc1175c2a47631f6"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobType\": \"Engineer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/jobType/6458dfff4414d9cd0b5347bd"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobType/6458dfff4414d9cd0b5347bd"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Help and Support",
+			"item": [
+				{
+					"name": "createQuery",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGZlMTc4MjMyMzIwNmVmMjViOWJiOSIsImlhdCI6MTY4NzI0ODgzNCwiZXhwIjoxNjg3NTA4MDM0fQ.3U8P9_hJ3ty-J_7JSP8kz3rh0wAUY59N37St9neEb3I"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"query\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8887/api/v1/help/createQuery"
+					},
+					"response": []
+				},
+				{
+					"name": "all help and support",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/help"
+					},
+					"response": []
+				},
+				{
+					"name": "help and support by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/help/id"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete help and support",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/help/delete/id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "petrol rate",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"petrol\",\r\n    \"rate\": \"90 rs/lit\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/petrolrate"
+					},
+					"response": []
+				},
+				{
+					"name": "getby id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/petrolrate/648c0ce0917dddbcb30f58d4"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/petrolrate"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"petrol\",\r\n    \"rate\": \"92 rs/lit\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/petrolrate/648c0ce0917dddbcb30f58d4"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/petrolrate/648c0ce0917dddbcb30f58d4"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user post",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\": \"648c07fc917dddbcb30f5850\",\r\n    \"image_vedio\": \"https://cdn.pixabay.com/photo/2012/12/17/19/15/ad-70507_640.jpg\",\r\n    \"description\": \"all type of fuel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/posts/createPost"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUserPost",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/posts/getAllUserPost"
+					},
+					"response": []
+				},
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/posts/All"
+					},
+					"response": []
+				},
+				{
+					"name": "getbyid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/posts/64a123583c8a0e6cccfeeda8"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\": \"648c07fc917dddbcb30f5850\",\r\n    \"image_vedio\": \"https://cdn.pixabay.com/photo/2012/12/17/19/15/ad-70507_640.jpg\",\r\n    \"description\": \"all type of fuel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/posts/64a123583c8a0e6cccfeeda8"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/posts/64675ff2c3f22aada7318a29"
+					},
+					"response": []
+				},
+				{
+					"name": "likepost",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "localhost:3006/api/v1/posts/like/64a123583c8a0e6cccfeeda8"
+					},
+					"response": []
+				},
+				{
+					"name": "comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"Beautifull\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/posts/comment/64a123583c8a0e6cccfeeda8"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "subscription",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"plan\": \"Premium\",\r\n    \"price\": \"299\",\r\n    \"details\": [\r\n        \"30 days Membership\",\r\n        \"3 jobs Posting\",\r\n        \"Featured job\",\r\n        \"Refresh job\",\r\n        \"Job displayed for 30 days\",\r\n        \"Post job with cover image field\",\r\n        \"Post job with Vehical Type field\",\r\n        \"Post job with Contact No field\"\r\n    ],\r\n    \"day\": 30,\r\n    \"jobPosting\": 3,\r\n    \"jobDisplay\": 30,\r\n    \"featuredJob\": true,\r\n    \"refreshJob\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/subscription"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/subscription"
+					},
+					"response": []
+				},
+				{
+					"name": "getby id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/subscription/64a11561899e29cf02770c96"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"plan\": \"Premium\",\r\n    \"price\": \"299\",\r\n    \"details\": [\r\n        \"30 days Membership\",\r\n        \"3 jobs Posting\",\r\n        \"Featured job\",\r\n        \"Refresh job\",\r\n        \"Job displayed for 30 days\",\r\n        \"Post job with cover image field\",\r\n        \"Post job with Vehical Type field\",\r\n        \"Post job with Contact No field\"\r\n    ],\r\n    \"day\": 30,\r\n    \"jobPosting\": 3,\r\n    \"jobDisplay\": 30,\r\n    \"featuredJob\": true,\r\n    \"refreshJob\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/subscription/64a115ea899e29cf02770c9c"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/subscription/64a1167a899e29cf02770ca5"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "video",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vedio\": \"https://youtu.be/odGpmFft0V0\",\r\n    \"startTime\": \"10:00\",\r\n    \"endTime\": \"15:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/video"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/video"
+					},
+					"response": []
+				},
+				{
+					"name": "getbyid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/video/64a108fb6ec41517c10c5d08"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"video\": \"https://www.youtube.com/watch?v=MTpCQTx0kqc\",\r\n    \"startTime\": \"10:00\",\r\n    \"endTime\": \"15:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/video/64a108fb6ec41517c10c5d08"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/video/64a108fb6ec41517c10c5d08"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "vehicletype",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vehicletype\" : \"suv\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/vehicletype"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/vehicletype"
+					},
+					"response": []
+				},
+				{
+					"name": "getbyid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/vehicletype/645a30c73a6990f0114aa704"
+					},
+					"response": []
+				},
+				{
+					"name": "upadte",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vehicletype\" : \"suv\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/vehicletype/645a30c73a6990f0114aa704"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/vehicletype/645a30c73a6990f0114aa704"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user Subscription and payment",
+			"item": [
+				{
+					"name": "Add money",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"balance\": \"200\",\r\n    \"paymentMethod\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/addMoney"
+					},
+					"response": []
+				},
+				{
+					"name": "removeMoney",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"balance\": \"50\",\r\n    \"paymentMethod\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/removeMoney"
+					},
+					"response": []
+				},
+				{
+					"name": "take subscription and CreatePayment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "localhost:3006/api/v1/auth/CreatePayment/subscriptionId"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"\"\r\n}\r\n// status == \"Paid\" || \"Failed\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/verifyPayment/subscriptionId"
+					},
+					"response": []
+				},
+				{
+					"name": "GetPaymentsByUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/auth/GetPaymentsByUser"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllPayments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/auth/GetAllPayments"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

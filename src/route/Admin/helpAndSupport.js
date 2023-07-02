@@ -1,17 +1,9 @@
 const express = require('express');
+const help = require('../../controller/AdminController/helpAndSupport');
+const authJwt = require("../../middlewares/authJwt");
 const router = express.Router();
-const helpController = require('../../controller/AdminController/helpAndSupport');
-
-// GET all help data
-router.get('/', helpController.getHelp);
-
-// POST create new help data
-router.post('/', helpController.createHelp);
-
-// PUT update help data by ID
-router.put('/:id', helpController.updateHelp);
-
-// DELETE delete help data by ID
-router.delete('/:id', helpController.deleteHelp);
-
+router.post("/createQuery", authJwt.verifyToken, help.AddQuery);
+router.get("/", help.getAllHelpandSupport);
+router.get("/:id", help.getAllHelpandSupportgetById);
+router.delete("/delete/:id", help.DeleteHelpandSupport);
 module.exports = router;

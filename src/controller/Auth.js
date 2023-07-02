@@ -6,13 +6,18 @@ const userSchema = require("../model/userModel");
 const axios = require("axios");
 const AadharMatch = require("../model/aadhar");
 const addharcard = require("../model/addharverification");
+const rating = require("../model/ratingModel");
+const SubscriptionSchema = require("../model/subscription");
+const payment = require("../model/payment");
+
 exports.login = async (req, res) => {
   try {
     const { phone, role, gender } = req.body;
     const data = await userSchema.findOne({ phone: phone, role: role });
     if (!data) {
       const otp = Math.floor(Math.random() * 1000000 + 1);
-      let obj = { phone: phone, gender: gender, role: role, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp, otpVerification: false }
+      let refferalCode = await reffralCode();
+      let obj = { phone: phone, gender: gender, role: role, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp, otpVerification: false, refferalCode: refferalCode }
       const newUser = await userSchema.create(obj);
       res.status(200).send({ message: "data created successfully", newUser: newUser });
     } else {
@@ -21,8 +26,7 @@ exports.login = async (req, res) => {
       res.status(200).send({ message: "OTP sent successfully", newUser: update });
     }
   } catch (err) {
-    console.log(err);
-    return res.status(400).send({ message: err.message });
+    return res.status(500).json({ status: 500, message: err.message });
   }
 };
 exports.verify = async (req, res) => {
@@ -41,6 +45,19 @@ exports.verify = async (req, res) => {
   } catch (err) {
     console.log(err.message);
     res.status(500).send({ error: "internal server error" + err.message });
+  }
+};
+exports.getProfile = async (req, res) => {
+  try {
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "User Not found.", status: 404 });
+    } else {
+       return res.status(200).json({ msg: "Get user profile successfully", user: findUser });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: error.message, name: error.name });
   }
 };
 exports.createDriver = async (req, res) => {
@@ -181,3 +198,253 @@ exports.updateCompanyType = async (req, res) => {
       .json({ error: "An error occurred while updating the driver." });
   }
 };
+exports.updateEmployeeDetails = async (req, res) => {
+  try {
+    const { name, details, email, exactAddress, phone, website } = req.body;
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "User Not found.", status: 404 });
+    } else {
+      let obj = {
+        name: name || findUser.name,
+        details: details || findUser.details,
+        email: email || findUser.email,
+        exactAddress: exactAddress || findUser.exactAddress,
+        phone: phone || findUser.phone,
+        website: website || findUser.website
+      }
+      const driver = await userSchema.findOneAndUpdate({ _id: findUser._id }, { $set: obj }, { new: true });
+      return res.status(200).json({ status: 200, message: "Employeer Profile update detail update.", data: driver });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while updating the driver." });
+  }
+};
+exports.followUnFollow = async (req, res) => {
+  try {
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+    } else {
+      let findUsers = await userSchema.findOne({ _id: req.params.id });
+      if (findUsers) {
+        if (findUsers.followers.includes((findUser._id).toString())) {
+          let update = await userSchema.findByIdAndUpdate({ _id: findUsers._id }, { $pull: { followers: findUser._id }, $set: { followerCount: findUsers.followerCount - 1 } }, { new: true });
+          if (update) {
+            let updates = await userSchema.findByIdAndUpdate({ _id: findUser._id }, { $pull: { following: findUsers._id }, $set: { followingCount: findUser.followingCount - 1 } }, { new: true })
+            if (updates) {
+              return res.status(200).json({ status: 200, message: "Unfollow successfully.", data: updates });
+            }
+          }
+        } else {
+          let update = await userSchema.findByIdAndUpdate({ _id: findUsers._id }, { $push: { followers: findUser._id }, $set: { followerCount: findUsers.followerCount + 1 } }, { new: true });
+          if (update) {
+            let updates = await userSchema.findByIdAndUpdate({ _id: findUser._id }, { $push: { following: findUsers._id }, $set: { followingCount: findUser.followingCount + 1 } }, { new: true })
+            if (updates) {
+              return res.status(200).json({ status: 200, message: "Follow successfully.", data: updates });
+            }
+          }
+        }
+      } else {
+        res.status(404).json({ message: "User Not found.", status: 404 });
+      }
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the driver." });
+  }
+};
+exports.giveRating = async (req, res) => {
+  try {
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+    } else {
+      let findUsers = await userSchema.findOne({ _id: req.params.id });
+      if (findUsers) {
+        let findRating = await rating.findOne({ userId: findUsers._id })
+        if (findRating) {
+          let obj = { userId: findUser._id, rating: req.body.rating, comment: req.body.comment, date: Date.now() };
+          let averageRating = (((findRating.averageRating * findRating.rating.length) + req.body.rating) / (findRating.rating.length + 1));
+          let update = await rating.findByIdAndUpdate({ _id: findRating._id }, { $set: { averageRating: parseFloat(averageRating).toFixed(2), totalRating: findRating.rating.length + 1 }, $push: { rating: obj } }, { new: true });
+          if (update) {
+            return res.status(200).json({ status: 200, message: "Rating given successfully.", data: update });
+          }
+        } else {
+          let data = {
+            userId: findUsers._id,
+            rating: [{
+              userId: findUser._id,
+              rating: req.body.rating,
+              comment: req.body.comment,
+              date: Date.now(),
+            }],
+            averageRating: req.body.rating,
+            totalRating: 1
+          }
+          const Data = await rating.create(data);
+          if (Data) {
+            return res.status(200).json({ status: 200, message: "Rating given successfully.", data: Data });
+          }
+        }
+      } else {
+        res.status(404).json({ message: "User Not found.", status: 404 });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(501).send({
+      message: "server error.",
+      data: {},
+    });
+  }
+};
+exports.CreatePayment = async (req, res) => {
+  try {
+    let userdata = await userSchema.findOne({ _id: req.user._id });
+    if (!userdata) {
+      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+    } else {
+      const subscription = await SubscriptionSchema.findById({ _id: req.params.subscriptionId })//.populate("subscriptionId")
+      if (!subscription) {
+        return res.status(404).json({ status: 404, message: 'Subscription not found' })
+      } else {
+        const DBData = {
+          name: userdata.name || userdata.firstName,
+          amount: subscription.price,
+          currency: "INR",
+          userId: userdata._id,
+          subscriptionId: subscription._id
+        };
+        const AmountData = await payment.create(DBData);
+        if (AmountData) {
+          return res.status(200).json({ status: 200, message: "Payment in proccess.", data: AmountData });
+        }
+      }
+    }
+  } catch (err) {
+    return res.status(500).json({ status: 500, message: err.message });
+  }
+}
+exports.verifyPayment = async (req, res) => {
+  try {
+    let userdata = await userSchema.findOne({ _id: req.user._id });
+    if (!userdata) {
+      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+    } else {
+      const subscription = await payment.findOne({ subscriptionId: req.params.subscriptionId, userId: userdata._id, status: "pending" });
+      if (!subscription) {
+        return res.status(404).json({ message: 'Subscription not found' })
+      } else {
+        if (req.body.status == "Paid") {
+          let update = await payment.findByIdAndUpdate({ _id: subscription._id }, { $set: { status: req.body.status } }, { new: true })
+          if (update) {
+            let subscriptionExpiration = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+            let updates = await userSchema.findByIdAndUpdate({ _id: userdata._id }, { $set: { subscriptionId: req.params.subscriptionId, subscriptionExpire: subscriptionExpiration, subscriptionVerification: true } }, { new: true })
+            if (updates) {
+              return res.status(200).json({ status: 200, message: 'Payment Success', data: update })
+            }
+          }
+        }
+        if (req.body.status == "Failed") {
+          let update = await payment.findByIdAndUpdate({ _id: subscription._id }, { $set: { status: req.body.status } }, { new: true })
+          if (update) {
+            return res.status(200).json({ status: 200, message: 'Payment failed', data: update })
+          }
+        }
+      }
+    }
+  } catch (err) {
+    return res.status(500).json({ status: 500, message: err.message });
+  }
+}
+exports.addMoney = async (req, res) => {
+  try {
+    let data = await userSchema.findOne({ _id: req.user._id });
+    if (data) {
+      let update = await userSchema.findByIdAndUpdate({ _id: data._id }, { $set: { wallet:data.wallet + parseInt(req.body.balance) } }, { new: true });
+      if (update) {
+        let obj = {
+          userId: data._id,
+          date: Date.now(),
+          amount: req.body.balance,
+          type: "Credit",
+          status: "Paid"
+        };
+        const data1 = await payment.create(obj);
+        if (data1) {
+          res.status(200).json({ status: 200, message: "Money has been added.", data: update, });
+        }
+      }
+    } else {
+      return res.status(404).json({ status: 404, message: "No data found", data: {} });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(501).send({ status: 501, message: "server error.", data: {}, });
+  }
+};
+exports.removeMoney = async (req, res) => {
+  try {
+    let data = await userSchema.findOne({ _id: req.user._id });
+    if (data) {
+      let update = await userSchema.findByIdAndUpdate({ _id: data._id }, { $set: { wallet: data.wallet - parseInt(req.body.balance) } }, { new: true });
+      if (update) {
+        let obj = {
+          userId: data._id,
+          date: Date.now(),
+          amount: req.body.balance,
+          type: "Debit",
+          status: "Paid"
+        };
+        const data1 = await payment.create(obj);
+        if (data1) {
+          res.status(200).json({ status: 200, message: "Money has been deducted.", data: update, });
+        }
+      }
+    } else {
+      return res.status(404).json({ status: 404, message: "No data found", data: {} });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(501).send({ status: 501, message: "server error.", data: {}, });
+  }
+};
+exports.GetPaymentsByUser = async (req, res) => {
+  try {
+    let userdata = await userSchema.findOne({ _id: req.user._id });
+    if (!userdata) {
+      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+    } else {
+      const Data = await payment.find({ userId: userdata._id }).populate({ path: 'userId subscriptionId', select: 'firstName lastName photoUpload plan' });
+      if (Data.length == 0) {
+        return res.status(404).json({ status: 404, message: 'Payment Data not found', data: {} })
+      } else {
+        return res.status(200).json({ status: 200, message: "Payment Data found.", data: Data });
+      }
+    }
+  } catch (err) {
+    return res.status(500).json({ status: 500, message: err.message });
+  }
+};
+exports.GetAllPayments = async (req, res) => {
+  try {
+    const Data = await payment.find().populate({ path: 'userId subscriptionId', select: 'firstName lastName photoUpload plan' });
+    if (Data.length == 0) {
+      return res.status(404).json({ status: 404, message: 'Payment Data not found', data: {} })
+    } else {
+      return res.status(200).json({ status: 200, message: "Payment Data found.", data: Data });
+    }
+  } catch (err) {
+    return res.status(500).json({ status: 500, message: err.message });
+  }
+};
+const reffralCode = async () => {
+  var digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let OTP = '';
+  for (let i = 0; i < 9; i++) {
+    OTP += digits[Math.floor(Math.random() * 36)];
+  }
+  return OTP;
+}

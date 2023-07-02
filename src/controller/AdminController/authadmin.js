@@ -1,4 +1,4 @@
-const User = require("../../model/authadmin");
+const User = require("../../model/userModel");
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const nodemailer = require('nodemailer');
@@ -17,8 +17,8 @@ exports.createUser = async (req, res) => {
 }
 exports.login = async (req, res) => {
   try {
-    const { userName, password } = req.body;
-    const user = await User.findOne({ name: userName });
+    const { email, password } = req.body;
+    const user = await User.findOne({ email: email, role: "ADMIN" });
     if (!user) { return res.status(401).json({ error: "Invalid email or password" }); }
     const passwordIsValid = bcrypt.compareSync(
       password,

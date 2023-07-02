@@ -31,73 +31,67 @@ const axios = require('axios');
 //     console.error('Error:', error.message);
 //   });
 
-
-exports.createLanguage = async (req, res) => {
-  try {
-    console.log("hi")
-    const { language } = req.body;
-
-    const data = await Language.create({ language: language });
-    res.status(201).json(data);
-
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({ error: "Failed to create language." });
-  }
-};
 exports.getLanguages = async (req, res) => {
   try {
-    const languages = await Language.find();
-
-    res.status(200).json(languages);
+    const Languages = await Language.find();
+    if (Languages.length == 0) {
+      res.status(404).send({ status: 404, message: "Language Not found", data: {} });
+    } else {
+      res.status(200).send({ status: 200, message: "Language found successfully.", data: Languages });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve languages." });
+    res.status(500).json({ status: 500, error: "Internal Server Error" });
+  }
+};
+exports.createLanguage = async (req, res) => {
+  try {
+    let findLanguage = await Language.findOne({ language: req.body.language });
+    if (findLanguage) {
+      res.status(409).send({ status: 409, message: "Language Already exit", data: {} });
+    } else {
+      const newLanguage = await Language.create(req.body);
+      res.status(200).send({ status: 200, message: "Language Create successfully.", data: newLanguage });
+    }
+  } catch (error) {
+    res.status(500).json({ status: 500, error: "Internal Server Error" });
   }
 };
 exports.getLanguageById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const language = await Language.findById(id);
-
-    if (!language) {
-      return res.status(404).json({ error: "Language not found." });
+    const Languages = await Language.findById(req.params.id);
+    if (!Languages) {
+      res.status(404).send({ status: 404, message: "Language Not found", data: {} });
+    } else {
+      res.status(200).send({ status: 200, message: "Language found successfully.", data: Languages });
     }
-    res.status(200).json(language);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve language." });
+    res.status(500).json({ status: 500, error: "Internal Server Error" });
   }
 };
 exports.updateLanguage = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { language } = req.body;
-
-    const updatedLanguage = await Language.findByIdAndUpdate(
-      id,
-      { language },
-      { new: true }
-    );
-
-    if (!updatedLanguage) {
-      return res.status(404).json({ error: "Language not found." });
+    const Languages = await Language.findById(req.params.id);
+    if (!Languages) {
+      res.status(404).send({ status: 404, message: "Language Not found", data: {} });
+    } else {
+      let obj = {
+        language: req.body.language || Languages.language
+      }
+      const updatedLanguage = await Language.findByIdAndUpdate(location._id, obj, { new: true });
+      res.status(200).send({ status: 200, message: "Language Update successfully.", data: updatedLanguage });
     }
-
-    res.status(200).json(updatedLanguage);
   } catch (error) {
-    res.status(500).json({ error: "Failed to update language." });
+    res.status(500).json({ status: 500, error: "Internal Server Error" });
   }
 };
 exports.deleteLanguage = async (req, res) => {
   try {
-    const { id } = req.params;
-    const deletedLanguage = await Language.findByIdAndDelete(id);
-
+    const deletedLanguage = await Language.findByIdAndDelete(req.params.id);
     if (!deletedLanguage) {
-      return res.status(404).json({ error: "Language not found." });
+      res.status(404).send({ status: 404, message: "Language Not found", data: {} });
     }
-
-    res.status(200).json({ message: "Language deleted successfully." });
+    res.status(200).send({ status: 200, message: "Language deleted successfully.", data: {} });
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete language." });
+    res.status(500).json({ status: 500, error: "Internal Server Error" });
   }
 };

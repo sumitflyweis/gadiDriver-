@@ -6,10 +6,6 @@ const jobService_Schema = mongoose.Schema(
       type: objectid,
       ref: "users",
     },
-    companyType: {
-      type: String,
-      enum: ["COMPANY", "INDIVISUAL"],
-    },
     jobtitle: {
       type: String,
       default: "",
@@ -105,6 +101,37 @@ const jobService_Schema = mongoose.Schema(
     viewed_count: {
       type: Number,
       default: 0,
+    },
+    rating: [{
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
+      subject: {
+        type: String
+      },
+      message: {
+        type: String
+      },
+      rating: {
+        type: Number,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    }],
+    averageRating: {
+      type: Number,
+      default: 0
+    },
+    totalRating: {
+      type: Number,
+      default: 0
+    },
+    applicantCount: {
+      type: Number,
+      default: 0
     },
     status: {
       type: String,

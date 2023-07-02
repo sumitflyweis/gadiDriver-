@@ -18,4 +18,12 @@ router.put("/updateJobServices/:id", authJwt.verifyToken, jobServiceController.u
 router.put("/updateJobImage/:id", authJwt.verifyToken, upload.single("file"), jobServiceController.updateJobImage);
 router.get("/", jobServiceController.getJobService);
 router.get("/:id", jobServiceController.getJobServiceById);
+router.post("/applied/:id",authJwt.verifyToken, jobServiceController.appliedOnJob);
+router.get("/job/getAllpendingJob", authJwt.verifyToken, jobServiceController.getAllpendingJob)
+router.get("/job/getAllApprovedJob", authJwt.verifyToken, jobServiceController.getAllApprovedJob)
+router.get("/job/getAllRejectJob", authJwt.verifyToken, jobServiceController.getAllRejectJob)
+router.get("/job/getAllWithdrawJob", authJwt.verifyToken, jobServiceController.getAllWithdrawJob)
+router.get("/job/:jobId", jobServiceController.getJobApplicantByjobId);
+router.get("/jobApplicatnatbyId/:id", jobServiceController.getJobApplicantById);
+
 module.exports = router;

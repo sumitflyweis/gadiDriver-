@@ -33,7 +33,7 @@ app.get("/home", (req, res) => {
 
 app.use("/api/v1/auth", require("./src/route/Auth/auth"));
 app.use("/api/v1/jobServices", require("./src/route/Auth/jobService"));
-app.use('/api/v1/authadminn', require('./src/route/Admin/authadmin'))
+app.use('/api/v1/admin', require('./src/route/Admin/authadmin'))
 app.use("/api/v1/location", require("./src/route/Admin/location"));
 app.use("/api/v1/jobType", require("./src/route/Admin/jobType"));
 app.use("/api/v1/Faq", require('./src/route/Admin/faq'))
@@ -41,6 +41,11 @@ app.use("/api/v1/category", require("./src/route/Admin/category"));
 app.use("/api/v1/help", require('./src/route/Admin/helpAndSupport'))
 app.use("/api/v1/languages", require("./src/route/Admin/different_Language"));
 app.use("/api/v1/vehicletype", require("./src/route/Admin/vehicletype"));
+app.use("/api/v1/categoryInterest", require('./src/route/Admin/categoryInterest'))
+app.use('/api/v1/video', require('./src/route/Admin/vedio'))
+app.use('/api/v1/petrolrate', require('./src/route/Admin/rateOfpetrolRate'))
+app.use("/api/v1/subscription", require('./src/route/Admin/subscription'))
+app.use("/api/v1/posts", require('./src/route/Auth/post'))
 
 
 
@@ -50,15 +55,10 @@ app.use("/api/v1/vehicletype", require("./src/route/Admin/vehicletype"));
 // app.use("/api/v1/camAndBrowse", require("./src/route/cameraAndBrowse"));
 // app.use("/api/v1/employ", require("./src/route/employer"));
 // app.use("/api/v1/jobServices", require("./src/route/jobService"));
-// app.use("/api/v1/subscrip", require('./src/route/subscription'))
 // app.use("/api/v1/action", require('./src/route/employerAction'))
-// app.use("/api/v1/categoryInterestt", require('./src/route/categoryInterest'))
-// app.use("/api/v1/postt", require('./src/route/post'))
 // app.use("/api/v1/refer", require('./src/route/referAndEarn'))
 // app.use('/api/v1/packageCompare', require('./src/route/gallery_packageUtilisation'))
-// app.use('/api/v1/vedioo', require('./src/route/vedio'))
 // app.use('/api/v1/wishlistt', require('./src/route/wishlist'))
-// app.use('/api/v1/petrolrate', require('./src/route/rateOfpetrolRate'))
 // app.use("/api/v1/adharveri", require('./src/route/addharverification'))
 // app.use("/api/v1/noti", require("./src/route/notifcation"))
 // app.use('/api/v1/paymentt',paymentt)

@@ -1,17 +1,22 @@
-const mongoose = require("mongoose");
-const objectid = mongoose.Schema.Types.ObjectId;
-const helpSchema = mongoose.Schema(
-  {
-    topic: {
-      type: String,
+const mongoose = require('mongoose');
+const helpandSupport = mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'userProfile',
+        required: true,
     },
-    desc:{
-        type:String
+    name: {
+        type: String,
+    },
+    email: {
+        type: String
+    }, 
+    mobile: {
+        type: String
+    }, 
+    query: {
+        type: String
     }
-  },
-  {
-    timestamps: true,
-  }
-);
-
-module.exports = mongoose.model("help", helpSchema);
+})
+const help = mongoose.model('help&suuport', helpandSupport);
+module.exports = help

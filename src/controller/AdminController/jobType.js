@@ -27,7 +27,7 @@ exports.createJobType = async (req, res) => {
 exports.getJobTypeById = async (req, res) => {
   try {
     const jobType = await JobType.findById(req.params.id);
-    if (!JobType) {
+    if (!jobType) {
       res.status(404).send({ status: 404, message: "JobType Not found", data: {} });
     } else {
       res.status(200).send({ status: 200, message: "JobType found successfully.", data: jobType });
@@ -45,7 +45,7 @@ exports.updateJobType = async (req, res) => {
       let obj = {
         jobType: req.body.jobType || jobType.jobType
       }
-      const updatedJobType = await JobType.findByIdAndUpdate(location._id, obj, { new: true });
+      const updatedJobType = await JobType.findByIdAndUpdate(JobType._id, obj, { new: true });
       res.status(200).send({ status: 200, message: "JobType Update successfully.", data: updatedJobType });
     }
   } catch (error) {

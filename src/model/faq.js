@@ -1,14 +1,16 @@
 const mongoose = require("mongoose");
-const objectid = mongoose.Schema.Types.ObjectId;
-const faqSchema = mongoose.Schema(
-  {
-    desc: {
-      type: String,
+const faqSchema = new mongoose.Schema(
+    {
+        question: {
+            type: String,
+            required: true,
+        },
+        answer: {
+            type: String,
+            required: true,
+        }
     },
-  },
-  {
-    timestamps: true,
-  }
+    { timestamps: true }
 );
 
 module.exports = mongoose.model("faq", faqSchema);
