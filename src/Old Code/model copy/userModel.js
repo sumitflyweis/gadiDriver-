@@ -67,7 +67,7 @@ const Employee_OwnerSchema = mongoose.Schema(
                         type: String,
                         default: "",
                 },
-                licienceNumber: {
+                licenseNumber: {
                         type: String,
                         default: "",
                 },

@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const JobService = require("../../model/Job");
 const userSchema = require("../../model/userModel");
 const jobApplicant = require("../../model/jobApplicant");
-const { log } = require("console");
 exports.createJobService = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
@@ -48,8 +47,9 @@ exports.getJobService = async (req, res) => {
     const jobService = await JobService.find().populate("language");
     if (jobService.length == 0) {
       res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+    } else {
+      res.status(200).send({ status: 200, message: "Job Found successfully.", data: jobService });
     }
-    res.status(200).send({ status: 200, message: "Job Found successfully.", data: jobService });
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: 500, error: "Internal server error" });
@@ -61,18 +61,18 @@ exports.getJobServiceById = async (req, res) => {
     const jobService = await JobService.findById(id).populate("language subscription");
     if (!jobService) {
       res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+    } else {
+      res.status(200).send({ status: 200, message: "Job Found successfully.", data: jobService });
     }
-    res.status(200).send({ status: 200, message: "Job Found successfully.", data: jobService });
   } catch (error) {
     res.status(500).json({ status: 500, error: "Internal server error" });
   }
 };
 exports.salarayAndExpectation = async (req, res) => {
   try {
-    const { id } = req.params;
-    const jobService = await JobService.findById(id);
+    const jobService = await JobService.findById({ _id: req.params._id });
     if (!jobService) {
-      return res.status(404).json({ error: "Job service not found" });
+      return res.status(404).json({ status: 404, message: "Job service not found" });
     } else {
       let obj = {
         companyType: jobService.companyType,
@@ -94,10 +94,9 @@ exports.salarayAndExpectation = async (req, res) => {
         autoClose: req.body.autoClose
       }
       const updatedJobService = await JobService.findByIdAndUpdate({ _id: jobService._id }, obj, { new: true });
-      if (!updatedJobService) {
-        return res.status(404).json({ error: "Job service not found" });
+      if (updatedJobService) {
+        res.status(200).send({ status: 200, message: "Job update successfully.", data: updatedJobService });
       }
-      res.status(200).json({ msg: updatedJobService });
     }
   } catch (error) {
     console.log(error);
@@ -106,10 +105,9 @@ exports.salarayAndExpectation = async (req, res) => {
 };
 exports.updateJobServices = async (req, res) => {
   try {
-    const { id } = req.params;
-    const jobService = await JobService.findById(id);
+    const jobService = await JobService.findById({ _id: req.params._id });
     if (!jobService) {
-      return res.status(404).json({ error: "Job service not found" });
+      return res.status(404).json({ status: 404, message: "Job service not found" });
     } else {
       let obj = {
         companyType: jobService.companyType,
@@ -135,10 +133,9 @@ exports.updateJobServices = async (req, res) => {
         startChat: req.body.startChat
       }
       const updatedJobService = await JobService.findByIdAndUpdate({ _id: jobService._id }, obj, { new: true });
-      if (!updatedJobService) {
-        return res.status(404).json({ error: "Job service not found" });
+      if (updatedJobService) {
+        res.status(200).send({ status: 200, message: "Job update successfully.", data: updatedJobService });
       }
-      res.status(200).json({ msg: updatedJobService });
     }
   } catch (error) {
     res.status(500).json({ status: 500, error: "Internal server error" });
@@ -146,10 +143,9 @@ exports.updateJobServices = async (req, res) => {
 };
 exports.updateJobImage = async (req, res) => {
   try {
-    const { id } = req.params;
-    const jobService = await JobService.findById(id);
+    const jobService = await JobService.findById({ _id: req.params._id });
     if (!jobService) {
-      return res.status(404).json({ error: "Job service not found" });
+      return res.status(404).json({ status: 404, message: "Job service not found" });
     } else {
       let fileUrl;
       if (req.file) {
@@ -157,10 +153,9 @@ exports.updateJobImage = async (req, res) => {
       }
       let image = fileUrl;
       const updatedJobService = await JobService.findByIdAndUpdate({ _id: jobService._id }, { $set: { image: image } }, { new: true });
-      if (!updatedJobService) {
-        return res.status(404).json({ error: "Job service not found" });
+      if (updatedJobService) {
+        res.status(200).send({ status: 200, message: "Job update successfully.", data: updatedJobService });
       }
-      res.status(200).json({ msg: updatedJobService });
     }
   } catch (error) {
     res.status(500).json({ status: 500, error: "Internal server error" });
@@ -266,12 +261,12 @@ exports.getAllWithdrawJob = async (req, res) => {
 };
 exports.getJobApplicantByjobId = async (req, res) => {
   try {
-      const jobService = await jobApplicant.find({ jobId: req.params.jobId }).populate({ path: 'jobId' }).populate({ path: 'emplyeerId driverId', select: 'firstName lastName photoUpload' });
-      if (jobService.length == 0) {
-        res.status(404).send({ status: 404, message: "Job application not found.", data: {} });
-      } else {
-        res.status(200).send({ status: 200, message: "All Job application data found successfully.", data: jobService });
-      }
+    const jobService = await jobApplicant.find({ jobId: req.params.jobId }).populate({ path: 'jobId' }).populate({ path: 'emplyeerId driverId', select: 'firstName lastName photoUpload' });
+    if (jobService.length == 0) {
+      res.status(404).send({ status: 404, message: "Job application not found.", data: {} });
+    } else {
+      res.status(200).send({ status: 200, message: "All Job application data found successfully.", data: jobService });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: 500, error: "Internal server error" });
@@ -286,6 +281,88 @@ exports.getJobApplicantById = async (req, res) => {
       res.status(200).send({ status: 200, message: "Job Applicant data found successfully.", data: jobService });
     }
   } catch (error) {
+    res.status(500).json({ status: 500, error: "Internal server error" });
+  }
+};
+exports.approvedRejectApplicantById = async (req, res) => {
+  try {
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "Driver Not found.", status: 404 });
+    } else {
+      const jobService = await jobApplicant.findById({ _id: req.params.id });
+      if (!jobService) {
+        res.status(404).send({ status: 404, message: "Job Applicant not found.", data: {} });
+      } else {
+        if (jobService.emplyeerId == findUser._id) {
+          if (req.body.status == "Approved") {
+            const updatedJobService = await jobApplicant.findByIdAndUpdate({ _id: jobService._id }, { $set: { status: "Approved" } }, { new: true });
+            if (updatedJobService) {
+              res.status(200).send({ status: 200, message: "Job application approved successfully.", data: updatedJobService });
+            }
+          }
+          if (req.body.status == "Reject") {
+            const updatedJobService = await jobApplicant.findByIdAndUpdate({ _id: jobService._id }, { $set: { status: "Reject" } }, { new: true });
+            if (updatedJobService) {
+              res.status(200).send({ status: 200, message: "Job application Reject successfully.", data: updatedJobService });
+            }
+          }
+        }
+        if (jobService.driverId == findUser._id) {
+          if (req.body.status == "Withdraw") {
+            const updatedJobService = await jobApplicant.findByIdAndUpdate({ _id: jobService._id }, { $set: { status: "Withdraw" } }, { new: true });
+            if (updatedJobService) {
+              res.status(200).send({ status: 200, message: "Job application Withdraw successfully.", data: updatedJobService });
+            }
+          }
+        }
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ status: 500, error: "Internal server error" });
+  }
+};
+exports.viewed_count = async (req, res) => {
+  try {
+    const jobService = await JobService.findById({ _id: req.params.id });
+    if (!jobService) {
+      res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+    } else {
+      const updatedJobService = await JobService.findByIdAndUpdate({ _id: jobService._id }, { $set: { viewed_count: jobService.viewed_count + 1 } }, { new: true });
+      if (updatedJobService) {
+        res.status(200).send({ status: 200, message: "Job view successfully.", data: updatedJobService });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, error: "Internal server error" });
+  }
+};
+exports.addLike = async (req, res) => {
+  try {
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "User Not found.", status: 404 });
+    } else {
+      const post = await JobService.findById({ _id: req.params.id });
+      if (!post) {
+        res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+      } else {
+        if (post.likeUser.includes((findUser._id).toString())) {
+          const update = await JobService.findByIdAndUpdate({ _id: post._id }, { $pull: { likeUser: (findUser._id).toString() }, $set: { likeCount: post.likeCount - 1 } }, { new: true });
+          if (update) {
+            res.status(200).json({ status: 200, message: "Un like successfully", data: update });
+          }
+        } else {
+          const update = await JobService.findByIdAndUpdate({ _id: post._id }, { $push: { likeUser: (findUser._id).toString() }, $set: { likeCount: post.likeCount + 1 } }, { new: true });
+          if (update) {
+            res.status(200).json({ status: 200, message: "like add successfully", data: update });
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ status: 500, error: "Internal server error" });
   }
 };

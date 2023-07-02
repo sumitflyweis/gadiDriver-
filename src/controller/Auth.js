@@ -53,7 +53,7 @@ exports.getProfile = async (req, res) => {
     if (!findUser) {
       res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
-       return res.status(200).json({ msg: "Get user profile successfully", user: findUser });
+      return res.status(200).json({ msg: "Get user profile successfully", user: findUser });
     }
   } catch (error) {
     console.log(error);
@@ -62,7 +62,7 @@ exports.getProfile = async (req, res) => {
 };
 exports.createDriver = async (req, res) => {
   try {
-    const { firstName, lastName, ResumeTitle, location, exactAddress, category, language, militaryService, DateOfBirth, licienceNumber, } = req.body;
+    const { firstName, lastName, ResumeTitle, location, exactAddress, category, language, militaryService, DateOfBirth, licenseNumber, } = req.body;
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
       res.status(404).json({ message: "User Not found.", status: 404 });
@@ -77,7 +77,7 @@ exports.createDriver = async (req, res) => {
         language: language || findUser.language,
         militaryService: militaryService || findUser.militaryService,
         DateOfBirth: DateOfBirth || findUser.DateOfBirth,
-        licienceNumber: licienceNumber || findUser.licienceNumber,
+        licenseNumber: licenseNumber || findUser.licenseNumber,
       };
       let update = await userSchema.findByIdAndUpdate({ _id: findUser._id }, { $set: obj }, { new: true });
       if (update) {
@@ -363,7 +363,7 @@ exports.addMoney = async (req, res) => {
   try {
     let data = await userSchema.findOne({ _id: req.user._id });
     if (data) {
-      let update = await userSchema.findByIdAndUpdate({ _id: data._id }, { $set: { wallet:data.wallet + parseInt(req.body.balance) } }, { new: true });
+      let update = await userSchema.findByIdAndUpdate({ _id: data._id }, { $set: { wallet: data.wallet + parseInt(req.body.balance) } }, { new: true });
       if (update) {
         let obj = {
           userId: data._id,
@@ -438,6 +438,36 @@ exports.GetAllPayments = async (req, res) => {
     }
   } catch (err) {
     return res.status(500).json({ status: 500, message: err.message });
+  }
+};
+exports.addskill = async (req, res) => {
+  try {
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (findUser) {
+      let skill = [];
+      if (findUser.skills.length > 0) {
+        for (let i = 0; i < findUser.skills.length; i++) {
+          let obj = {
+            skill: findUser.skills[i].skill,
+          };
+          skill.push(obj);
+        }
+      }
+      let obj = {
+        skill: req.body.skill,
+      };
+      skill.push(obj);
+      const data = await userSchema.findOneAndUpdate({ _id: findUser._id }, { $set: { skills: skill } }, { new: true });
+      res.status(200).send({ msg: "skill added", data: data });
+    } else {
+      return res.status(404).send({ msg: "not found" });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({
+      msg: "internal server error ",
+      error: err.message,
+    });
   }
 };
 const reffralCode = async () => {

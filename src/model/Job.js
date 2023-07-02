@@ -94,10 +94,6 @@ const jobService_Schema = mongoose.Schema(
       type: String,
       default: "",
     },
-    website: {
-      type: String,
-      default: "",
-    },
     viewed_count: {
       type: Number,
       default: 0,
@@ -133,6 +129,14 @@ const jobService_Schema = mongoose.Schema(
       type: Number,
       default: 0
     },
+    likeCount: {
+      type: Number,
+      default: 0,
+    },
+    likeUser: [{
+      type: objectid,
+      ref: "users",
+    }],
     status: {
       type: String,
       default: ""

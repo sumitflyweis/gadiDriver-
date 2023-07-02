@@ -18,7 +18,7 @@ exports.createDriver = async (req, res) => {
       language,
       militaryService,
       DateOfBirth,
-      licienceNumber,
+      licenseNumber,
     } = req.body;
 
     const driver = new Driver({
@@ -33,7 +33,7 @@ exports.createDriver = async (req, res) => {
       language,
       militaryService,
       DateOfBirth,
-      licienceNumber,
+      licenseNumber,
     });
 
     const savedDriver = await driver.save();
@@ -110,7 +110,7 @@ exports.updateDriver = async (req, res) => {
   try {
     const {
       authid,
-      licienceNumber,
+      licenseNumber
       gender,
       firstName,
       lastName,
@@ -128,7 +128,7 @@ exports.updateDriver = async (req, res) => {
       { _id: req.params.id },
       {
         authid,
-        licienceNumber,
+        licenseNumber,
         gender,
         firstName,
         lastName,

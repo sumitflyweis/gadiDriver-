@@ -45,7 +45,7 @@ exports.verify = async (req, res) => {
 };
 exports.createDriver = async (req, res) => {
   try {
-    const { firstName, lastName, ResumeTitle, location, exactAddress, category, language, militaryService, DateOfBirth, licienceNumber, } = req.body;
+    const { firstName, lastName, ResumeTitle, location, exactAddress, category, language, militaryService, DateOfBirth, licenseNumber, } = req.body;
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
       res.status(404).json({ message: "User Not found.", status: 404 });
@@ -60,7 +60,7 @@ exports.createDriver = async (req, res) => {
         language: language || findUser.language,
         militaryService: militaryService || findUser.militaryService,
         DateOfBirth: DateOfBirth || findUser.DateOfBirth,
-        licienceNumber: licienceNumber || findUser.licienceNumber,
+        licenseNumber: licenseNumber || findUser.licenseNumber,
       };
       let update = await userSchema.findByIdAndUpdate({ _id: findUser._id }, { $set: obj }, { new: true });
       if (update) {

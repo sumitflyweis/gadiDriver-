@@ -49,7 +49,7 @@ const driverSchema = mongoose.Schema(
       type: String,
       default: "",
     },
-    licienceNumber: {
+    licenseNumber: {
       type: String,
       default: "",
     },

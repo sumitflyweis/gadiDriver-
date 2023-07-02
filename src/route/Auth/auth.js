@@ -30,5 +30,5 @@ customerRouter.get("/GetPaymentsByUser", authJwt.verifyToken, auth.GetPaymentsBy
 customerRouter.get("/GetAllPayments", auth.GetAllPayments);
 customerRouter.post("/addMoney", authJwt.verifyToken, auth.addMoney);
 customerRouter.post("/removeMoney", authJwt.verifyToken, auth.removeMoney);
-
+customerRouter.post("/addskill", authJwt.verifyToken, auth.addskill);
 module.exports = customerRouter;

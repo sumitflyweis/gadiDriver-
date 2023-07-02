@@ -29,7 +29,7 @@ const Employee_OwnerSchema = mongoose.Schema(
                 language: { type: objectid, ref: "different_Languages", },
                 militaryService: { type: String, default: "", },
                 DateOfBirth: { type: String, default: "", },
-                licienceNumber: { type: String, default: "", },
+                licenseNumber: { type: String, default: "", },
                 email: { type: String, default: "", },
                 interest: { type: String, default: "", },
                 experience: [{
@@ -54,6 +54,11 @@ const Employee_OwnerSchema = mongoose.Schema(
                 followerCount: { type: Number, default: 0, },
                 followingCount: { type: Number, default: 0, },
                 jobPostCount: { type: Number, default: 0, },
+                skills: [{
+                        skill: {
+                                type: String,
+                        },
+                }],
         },
         {
                 timestamps: true,
