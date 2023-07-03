@@ -368,67 +368,87 @@ exports.addLike = async (req, res) => {
     res.status(500).json({ status: 500, error: "Internal server error" });
   }
 };
-// exports.giveRatingToJob = async (req, res) => {
-//   try {
-//     let findUser = await userSchema.findOne({ _id: req.user._id });
-//     if (!findUser) {
-//       res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
-//     } else {
-//       let findJob = await JobService.findOne({ _id: req.params.id });
-//       if (findJob) {
-//         let findRating = await jobRatingModel.findOne({ jobId: findJob._id })
-//         if (findRating) {
-
-//         } else {
-//           let findTopic = await ratingTopic.findById({ _id: req.body._id });
-          
-//         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//         // if (findRating) {
-//         //   let obj = { userId: findUser._id, rating: req.body.rating, comment: req.body.comment, date: Date.now() };
-//         //   let averageRating = (((findRating.averageRating * findRating.rating.length) + req.body.rating) / (findRating.rating.length + 1));
-//         //   let update = await rating.findByIdAndUpdate({ _id: findRating._id }, { $set: { averageRating: parseFloat(averageRating).toFixed(2), totalRating: findRating.rating.length + 1 }, $push: { rating: obj } }, { new: true });
-//         //   if (update) {
-//         //     return res.status(200).json({ status: 200, message: "Rating given successfully.", data: update });
-//         //   }
-//         // } else {
-//         //   let data = {
-//         //     userId: findUsers._id,
-//         //     rating: [{
-//         //       userId: findUser._id,
-//         //       rating: req.body.rating,
-//         //       comment: req.body.comment,
-//         //       date: Date.now(),
-//         //     }],
-//         //     averageRating: req.body.rating,
-//         //     totalRating: 1
-//         //   }
-//         //   const Data = await rating.create(data);
-//         //   if (Data) {
-//         //     return res.status(200).json({ status: 200, message: "Rating given successfully.", data: Data });
-//         //   }
-//         // }
-//       } else {
-//         res.status(404).json({ message: "Job Not found.", status: 404 });
-//       }
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.status(501).send({
-//       message: "server error.",
-//       data: {},
-//     });
-//   }
-// };
+exports.giveRatingToJob = async (req, res) => {
+  try {
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+    } else {
+      let findJob = await JobService.findOne({ _id: req.params.id });
+      if (findJob) {
+        let findRating = await jobRatingModel.findOne({ jobId: findJob._id })
+        if (findRating) {
+          let findTopic = await ratingTopic.findById({ _id: req.body._id });
+          if (findTopic) {
+            let obj = {
+              userId: findUser._id,
+              rating: req.body.rating,
+              subject: req.body.subject,
+              ratingTopicId: findTopic._id,
+              message: req.body.message
+            }
+            let averageRating = (((findRating.averageRating * findRating.rating.length) + req.body.rating) / (findRating.rating.length + 1));
+            let update = await jobRatingModel.findByIdAndUpdate({ _id: findRating._id }, { $push: { rating: obj }, $set: { averageRating: averageRating, totalRating: findRating.rating.length + 1 } }, { new: true });
+            if (update) {
+              if (findRating.topicId.length == 0) {
+                let obj1 = { ratingTopicId: findTopic._id, rating: req.body.rating, totalRating: 1 };
+                let updates = await jobRatingModel.findByIdAndUpdate({ _id: findRating._id }, { $push: { topicId: obj1 } }, { new: true });
+                if (updates) {
+                  return res.status(200).json({ status: 200, message: "Rating given successfully.", data: updates });
+                }
+              } else {
+                for (let i = 0; i < findRating.topicId.length; i++) {
+                  if ((findRating.topicId[i].ratingTopicId).toString() == (findTopic._id).toString()) {
+                    let averageRating = (((findRating.topicId[i].rating * findRating.topicId[i].totalRating) + req.body.rating) / (findRating.topicId[i].totalRating + 1));
+                    let update = await jobRatingModel.findOneAndUpdate({ _id: findRating._id, 'topicId.ratingTopicId': findTopic._id }, {$set:{'topicId.$.rating':averageRating, 'topicId.$.totalRating': findRating.topicId[i].totalRating + 1}}, { new: true })
+                    if (update) {
+                      return res.status(200).json({ status: 200, message: "Rating given successfully.", data: update });
+                    }
+                  } else {
+                    let obj1 = { ratingTopicId: findTopic._id, rating: req.body.rating, totalRating: 1 };
+                    let updates = await jobRatingModel.findByIdAndUpdate({ _id: findRating._id }, { $push: { topicId: obj1 } }, { new: true });
+                    if (updates) {
+                      return res.status(200).json({ status: 200, message: "Rating given successfully.", data: updates });
+                    }
+                  }
+                }
+              }
+            }
+          } else {
+            res.status(404).json({ message: "Rating topic Not found.", status: 404 });
+          }
+        } else {
+          let findTopic = await ratingTopic.findById({ _id: req.body._id });
+          if (findTopic) {
+            let ratings = [], topic = [];
+            let obj = { userId: findUser._id, rating: req.body.rating, subject: req.body.subject, ratingTopicId: findTopic._id, message: req.body.message }
+            let obj1 = { ratingTopicId: findTopic._id, rating: req.body.rating, totalRating: 1 };
+            ratings.push(obj);
+            topic.push(obj1);
+            let job = {
+              jobId: findJob._id,
+              topicId: topic,
+              rating: ratings,
+              averageRating: req.body.rating,
+              totalRating: 1,
+            }
+            let saveRating = await jobRatingModel.create(job);
+            if (saveRating) {
+              let updates = await JobService.findByIdAndUpdate({ _id: findJob._id }, { $set: { rating: saveRating._id } }, { new: true });
+              if (updates) {
+                return res.status(200).json({ status: 200, message: "Rating given successfully.", data: saveRating });
+              }
+            }
+          } else {
+            res.status(404).json({ message: "Rating topic Not found.", status: 404 });
+          }
+        }
+      } else {
+        res.status(404).json({ message: "Job Not found.", status: 404 });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(501).send({ message: "server error.", data: {}, });
+  }
+};

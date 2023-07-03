@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const helpandSupport = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'userProfile',
+        ref: 'users',
         required: true,
     },
     name: {

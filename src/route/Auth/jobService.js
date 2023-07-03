@@ -28,4 +28,5 @@ router.get("/jobApplicatnatbyId/:id", jobServiceController.getJobApplicantById);
 router.put("/jobApplicatnatbyId/:id",authJwt.verifyToken, jobServiceController.approvedRejectApplicantById);
 router.get("/viewed_count/:id", jobServiceController.viewed_count);
 router.post('/like/:id',authJwt.verifyToken, jobServiceController.addLike);
+router.post('/job/giverating/:id',authJwt.verifyToken, jobServiceController.giveRatingToJob);
 module.exports = router;

@@ -14,6 +14,10 @@ const schema = new mongoose.Schema(
             rating: {
                 type: Number,
             },
+            totalRating: {
+                type: Number,
+                default: 0
+            },
         }],
         rating: [{
             userId: {
