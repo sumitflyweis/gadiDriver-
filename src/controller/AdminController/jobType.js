@@ -39,13 +39,13 @@ exports.getJobTypeById = async (req, res) => {
 exports.updateJobType = async (req, res) => {
   try {
     const jobType = await JobType.findById(req.params.id);
-    if (!JobType) {
+    if (!jobType) {
       res.status(404).send({ status: 404, message: "JobType Not found", data: {} });
     } else {
       let obj = {
         jobType: req.body.jobType || jobType.jobType
       }
-      const updatedJobType = await JobType.findByIdAndUpdate(JobType._id, obj, { new: true });
+      const updatedJobType = await JobType.findByIdAndUpdate(jobType._id, obj, { new: true });
       res.status(200).send({ status: 200, message: "JobType Update successfully.", data: updatedJobType });
     }
   } catch (error) {
