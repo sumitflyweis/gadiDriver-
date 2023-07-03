@@ -20,14 +20,9 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email, role: "ADMIN" });
     if (!user) { return res.status(401).json({ error: "Invalid email or password" }); }
-    const passwordIsValid = bcrypt.compareSync(
-      password,
-      user.password
-    );
+    const passwordIsValid = bcrypt.compareSync(password, user.password);
     if (!passwordIsValid) {
-      return res.status(401).send({
-        message: "Wrong password",
-      });
+      return res.status(401).send({ message: "Wrong password", });
     }
 
     const accessToken = jwt.sign({ id: user._id }, process.env.SECRET, {
@@ -109,6 +104,32 @@ exports.deleteUserById = async (req, res) => {
     return res.status(200).json({ message: "User deleted successfully" });
   } catch (err) {
     return res.status(500).json({ error: err.message });
+  }
+}
+exports.changePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+    const admin = await User.findById({ _id: req.user._id });
+    if (!admin) {
+      return res.status(404).json({ status: 404, message: "Admin not found" });
+    } else {
+      const passwordIsValid = bcrypt.compareSync(oldPassword, admin.password);
+      if (!passwordIsValid) {
+        return res.status(201).send({ status: 201, message: "old Password is inCorrect!", });
+      }
+      if (newPassword == confirmPassword) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        let update = await User.findByIdAndUpdate({ _id: admin._id }, { $set: { password: hashedPassword } }, { new: true });
+        if (update) {
+          return res.status(200).send({ status: 200, message: "Password Changed successfully", data: update });
+        }
+      } else {
+        return res.status(203).send({ status: 203, message: "New Password and old password not matched!", });
+      }
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 }
 exports.resetpassword = async (req, res) => {

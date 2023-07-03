@@ -16,4 +16,5 @@ router.post("/forgetpassword", UserController.forgetpassword)
 router.post("/verifyadminotp", UserController.verifyadminotp)
 router.post("/notification/sendNotification", authJwt.verifyToken, notificationController.sendNotification);
 router.get("/notification/allNotification", authJwt.verifyToken, notificationController.allNotification);
+router.put("/changePassword", authJwt.verifyToken, UserController.changePassword);
 module.exports = router;
