@@ -34,7 +34,7 @@ exports.createJobService = async (req, res) => {
 };
 exports.getJobServicebyToken = async (req, res) => {
   try {
-    const jobService = await JobService.find({ userId: req.user._id }).populate("language");
+    const jobService = await JobService.find({ userId: req.user._id }).populate("userId jobtype vehicletype language likeUser");;
     if (!jobService) {
       res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
     }
@@ -46,7 +46,7 @@ exports.getJobServicebyToken = async (req, res) => {
 };
 exports.getJobService = async (req, res) => {
   try {
-    const jobService = await JobService.find().populate("language");
+    const jobService = await JobService.find().populate("userId jobtype vehicletype language likeUser");
     if (jobService.length == 0) {
       res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
     } else {
