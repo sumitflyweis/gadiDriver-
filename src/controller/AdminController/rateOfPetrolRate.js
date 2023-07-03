@@ -15,7 +15,7 @@ exports.getPetrolRate = async (req, res) => {
 exports.createPetrolRate = async (req, res) => {
   try {
     const { name, rate } = req.body;
-    const newPetrolRate = new Petrol({ name, rate });
+    const newPetrolRate = await Petrol.create({ name, rate });
     res.status(200).send({ status: 200, message: "Petrol Rate Create successfully.", data: newPetrolRate });
   } catch (error) {
     res.status(500).json({ status: 500, error: "Internal Server Error" });
