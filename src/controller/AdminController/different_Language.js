@@ -77,7 +77,7 @@ exports.updateLanguage = async (req, res) => {
       let obj = {
         language: req.body.language || Languages.language
       }
-      const updatedLanguage = await Language.findByIdAndUpdate(location._id, obj, { new: true });
+      const updatedLanguage = await Language.findByIdAndUpdate(Languages._id, obj, { new: true });
       res.status(200).send({ status: 200, message: "Language Update successfully.", data: updatedLanguage });
     }
   } catch (error) {
