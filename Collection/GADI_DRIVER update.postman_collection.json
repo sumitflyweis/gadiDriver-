@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "7bb180a9-8838-4ba7-bb02-6731e84e53f5",
+		"_postman_id": "c9c728df-7bc9-4a0d-8fa2-348fb71b6f2c",
 		"name": "GADI_DRIVER update",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "15173170"
+		"_exporter_id": "23385795",
+		"_collection_link": "https://solar-trinity-26355.postman.co/workspace/flyweis~160f0fa9-ce3b-44b5-9e35-ff590823618d/collection/23385795-c9c728df-7bc9-4a0d-8fa2-348fb71b6f2c?action=share&creator=23385795&source=collection_link"
 	},
 	"item": [
 		{
@@ -51,7 +52,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODIxMzYwNywiZXhwIjoxNjg4MzAwMDA3fQ.warhxQe0uMN2fCjPHfBHiO6vy69DKoQmzuo0PDpthQo"
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODM2ODQ5OSwiZXhwIjoxNjg4NDU0ODk5fQ.tbKO_LcTYooTulY_sGIIPI8MIymmAgargUtG1KmM6ow"
 							}
 						},
 						"method": "GET",
@@ -66,7 +67,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODIxMzYwNywiZXhwIjoxNjg4MzAwMDA3fQ.warhxQe0uMN2fCjPHfBHiO6vy69DKoQmzuo0PDpthQo"
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODM2ODQ5OSwiZXhwIjoxNjg4NDU0ODk5fQ.tbKO_LcTYooTulY_sGIIPI8MIymmAgargUtG1KmM6ow"
 							}
 						},
 						"method": "GET",
@@ -109,20 +110,26 @@
 					"response": []
 				},
 				{
-					"name": "updatepaswwordd",
+					"name": "changePassword",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODM4OTk5MiwiZXhwIjoxNjg4NDc2MzkyfQ.qvJY79tgsc3OL8fVTfnuGpQhAWS6-AvKkufuTeItcjM"
+							}
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\":\"qwerty@123\",\r\n    \"confirmpassword\":\"qwerty@123\"\r\n}",
+							"raw": "{\r\n    \"oldPassword\": \"qwerty1\",\r\n    \"newPassword\": \"qwerty\",\r\n    \"confirmPassword\": \"qwerty\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:3006/api/v1/authadminn/updatepaswwordd/648c00ec040c18f7f7afe597"
+						"url": "localhost:3006/api/v1/admin/changePassword"
 					},
 					"response": []
 				},
@@ -405,7 +412,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"phone\": \"7983270583\",\r\n    \"role\": \"DRIVER\",\r\n    \"gender\": \"Male\"\r\n}",
+							"raw": "{\r\n    \"phone\": \"8266833070\",\r\n    \"role\": \"EMPLOYER\",\r\n    \"gender\": \"Male\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -423,14 +430,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"otp\": \"520424\"\r\n}",
+							"raw": "{\r\n   \"otp\": \"293355\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:3006/api/v1/auth/verify/649ec9cc466dace8ed3293e7"
+						"url": "localhost:3006/api/v1/auth/verify/64a275c71cf2fcf4542bd458"
 					},
 					"response": [
 						{
@@ -487,7 +494,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"message\": \"logged in successfully\",\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70\",\n    \"profileComplete\": false,\n    \"data\": {\n        \"name\": \"\",\n        \"refferalCode\": \"\",\n        \"wallet\": 0,\n        \"image\": \"\",\n        \"password\": \"\",\n        \"confirmpassword\": \"\",\n        \"website\": \"\",\n        \"jobServicesId\": [],\n        \"subscriptionVerification\": false,\n        \"followers\": [],\n        \"followerCount\": 0,\n        \"jobPostCount\": 0,\n        \"_id\": \"649ec9cc466dace8ed3293e7\",\n        \"phone\": \"7983270583\",\n        \"otp\": \"520424\",\n        \"otpVerification\": true,\n        \"otpExpire\": \"2023-07-02T10:45:14.124Z\",\n        \"role\": \"DRIVER\",\n        \"profileComplete\": false,\n        \"gender\": \"Male\",\n        \"firstName\": \"gadi\",\n        \"lastName\": \"driver\",\n        \"ResumeTitle\": \"car driver\",\n        \"exactAddress\": \"sector 58\",\n        \"militaryService\": \"no\",\n        \"DateOfBirth\": \"1998-05-10\",\n        \"licenseNumber\": \"1231423543646\",\n        \"email\": \"\",\n        \"interest\": \"\",\n        \"frontImage\": \"https://res.cloudinary.com/dbrvq9uxa/image/upload/v1688130990/images/image/dkp4ketuibkhpxu4dch8.png\",\n        \"backImage\": \"https://res.cloudinary.com/dbrvq9uxa/image/upload/v1688130990/images/image/opazwd6x1efrfxrmretz.jpg\",\n        \"photoUpload\": \"https://res.cloudinary.com/dbrvq9uxa/image/upload/v1688205410/images/image/ppsimvjkprj7udfkopaj.jpg\",\n        \"employerAction\": \"\",\n        \"viewed\": false,\n        \"experience\": [\n            {\n                \"companyName\": \"abc\",\n                \"jobTitle\": \"driver\",\n                \"vehicletype\": \"645a30bb3a6990f0114aa702\",\n                \"starttime\": \"01/02/2021\",\n                \"endtime\": \"01/11/2022\",\n                \"Status\": \"yes\",\n                \"_id\": \"649ed2e590198c1fdad38420\"\n            }\n        ],\n        \"createdAt\": \"2023-06-30T12:25:48.930Z\",\n        \"updatedAt\": \"2023-07-02T10:40:44.782Z\",\n        \"__v\": 0,\n        \"category\": \"6458e6327df7c64c57f8fab8\",\n        \"language\": \"6458ac53b8731bffacccb2f7\",\n        \"location\": \"6458dfff4414d9cd0b5347bd\",\n        \"following\": [\n            \"64a004c541d5bbfc791b8552\"\n        ],\n        \"followingCount\": 1\n    }\n}"
+							"body": "{\n    \"message\": \"logged in successfully\",\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI5NDQ0NSwiZXhwIjoxNjg4MzgwODQ1fQ.gEvsrCoVRjBVlfEESdnmgsv4T6S217EzxC7wR745t70\",\n    \"profileComplete\": false,\n    \"data\": {\n        \"name\": \"\",\n        \"refferalCode\": \"\",\n        \"wallet\": 0,\n        \"image\": \"\",\n        \"password\": \"\",\n        \"confirmpassword\": \"\",\n        \"website\": \"\",\n        \"jobServicesId\": [],\n        \"subscriptionVerification\": false,\n        \"followers\": [],\n        \"followerCount\": 0,\n        \"jobPostCount\": 0,\n        \"_id\": \"649ec9cc466dace8ed3293e7\",\n        \"phone\": \"7983270583\",\n        \"otp\": \"520424\",\n        \"otpVerification\": true,\n        \"otpExpire\": \"2023-07-02T10:45:14.124Z\",\n        \"role\": \"DRIVER\",\n        \"profileComplete\": false,\n        \"gender\": \"Male\",\n        \"firstName\": \"gadi\",\n        \"lastName\": \"driver\",\n        \"ResumeTitle\": \"car driver\",\n        \"exactAddress\": \"sector 58\",\n        \"militaryService\": \"no\",\n        \"DateOfBirth\": \"1998-05-10\",\n        \"licienceNumber\": \"1231423543646\",\n        \"email\": \"\",\n        \"interest\": \"\",\n        \"frontImage\": \"https://res.cloudinary.com/dbrvq9uxa/image/upload/v1688130990/images/image/dkp4ketuibkhpxu4dch8.png\",\n        \"backImage\": \"https://res.cloudinary.com/dbrvq9uxa/image/upload/v1688130990/images/image/opazwd6x1efrfxrmretz.jpg\",\n        \"photoUpload\": \"https://res.cloudinary.com/dbrvq9uxa/image/upload/v1688205410/images/image/ppsimvjkprj7udfkopaj.jpg\",\n        \"employerAction\": \"\",\n        \"viewed\": false,\n        \"experience\": [\n            {\n                \"companyName\": \"abc\",\n                \"jobTitle\": \"driver\",\n                \"vehicletype\": \"645a30bb3a6990f0114aa702\",\n                \"starttime\": \"01/02/2021\",\n                \"endtime\": \"01/11/2022\",\n                \"Status\": \"yes\",\n                \"_id\": \"649ed2e590198c1fdad38420\"\n            }\n        ],\n        \"createdAt\": \"2023-06-30T12:25:48.930Z\",\n        \"updatedAt\": \"2023-07-02T10:40:44.782Z\",\n        \"__v\": 0,\n        \"category\": \"6458e6327df7c64c57f8fab8\",\n        \"language\": \"6458ac53b8731bffacccb2f7\",\n        \"location\": \"6458dfff4414d9cd0b5347bd\",\n        \"following\": [\n            \"64a004c541d5bbfc791b8552\"\n        ],\n        \"followingCount\": 1\n    }\n}"
 						}
 					]
 				},
@@ -638,7 +645,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTI3NWM3MWNmMmZjZjQ1NDJiZDQ1OCIsImlhdCI6MTY4ODM2ODYxMCwiZXhwIjoxNjg4NDU1MDEwfQ.2Zh3nTeCOKJdyxbuMJ_HKXnPu2pwWaFer-Jn8JOplho"
 							}
 						},
 						"method": "PUT",
@@ -649,7 +656,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "vCFKwFoEt/wepik-photo-mode-202285-143511.jpeg"
+									"src": "ZNqKzlIP-/download (3).jpg"
 								}
 							]
 						},
@@ -663,14 +670,14 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTI3NWM3MWNmMmZjZjQ1NDJiZDQ1OCIsImlhdCI6MTY4ODM2ODYxMCwiZXhwIjoxNjg4NDU1MDEwfQ.2Zh3nTeCOKJdyxbuMJ_HKXnPu2pwWaFer-Jn8JOplho"
 							}
 						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"companyType\":\"\"\r\n}\r\n// COMPANY\", \"INDIVISUAL",
+							"raw": "{\r\n    \"companyType\":\"COMPANY\"\r\n}\r\n// COMPANY\", \"INDIVISUAL",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -687,14 +694,14 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODEyODIzMywiZXhwIjoxNjg4MjE0NjMzfQ.eOX5BvQflMKxbzYrjHCExtXSEY27OAuGRM4fyX8vVTw"
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTI3NWM3MWNmMmZjZjQ1NDJiZDQ1OCIsImlhdCI6MTY4ODM2ODYxMCwiZXhwIjoxNjg4NDU1MDEwfQ.2Zh3nTeCOKJdyxbuMJ_HKXnPu2pwWaFer-Jn8JOplho"
 							}
 						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"\",\r\n    \"details\": \"\",\r\n    \"email\": \"\",\r\n    \"exactAddress\": \"\",\r\n    \"phone\": \"\",\r\n    \"website\": \"\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Flyweis technology\",\r\n    \"details\": \"Flyweis Technology delivers the world's most technically advanced security intelligence to disrupt adversaries.\",\r\n    \"email\": \"flyweis@gmail.com\",\r\n    \"exactAddress\": \"A-66, Sector 63 Rd, A Block, Noida, Uttar Pradesh 201301\",\r\n    \"phone\": \"8266833070\",\r\n    \"website\": \"www.flyweis.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -741,6 +748,30 @@
 							}
 						},
 						"url": "localhost:3006/api/v1/auth/giveRating/64a004c541d5bbfc791b8552"
+					},
+					"response": []
+				},
+				{
+					"name": "addskill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"skill\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/auth/addskill"
 					},
 					"response": []
 				}
@@ -1057,7 +1088,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "localhost:3006/api/v1/jobServices/6464ce321491e8e8c0d553d4"
+						"url": "localhost:3006/api/v1/jobServices/64a004ee41d5bbfc791b8558"
 					},
 					"response": []
 				},
@@ -1146,11 +1177,77 @@
 					"response": []
 				},
 				{
-					"name": "get job applicant by jobId Copy",
+					"name": "get job applicant by applicant _id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": "localhost:3006/api/v1/jobServices/jobApplicatnatbyId/64a166abfef1d891f9ca5b22"
+					},
+					"response": []
+				},
+				{
+					"name": "(Approved or reject by employeer) or (withdraw by driver)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"\"\r\n}\r\n\r\n// Approved || Reject || Withdraw",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/jobServices/jobApplicatnatbyId/64a166abfef1d891f9ca5b22"
+					},
+					"response": []
+				},
+				{
+					"name": "like job",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWVjOWNjNDY2ZGFjZThlZDMyOTNlNyIsImlhdCI6MTY4ODI4MDU4NCwiZXhwIjoxNjg4MzY2OTg0fQ.8wy4_I4hziYPG3vnbJbahZSKJLDhevFmGMgrQ0Eoa9c"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/like/64a004ee41d5bbfc791b8558"
+					},
+					"response": []
+				},
+				{
+					"name": "give rating on job",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTI3NWM3MWNmMmZjZjQ1NDJiZDQ1OCIsImlhdCI6MTY4ODM3NTkzOSwiZXhwIjoxNjg4NDYyMzM5fQ.VdkrXXqE-DKy3sKVeMx-xTAyhTN-BSBgCgxbpdh1tPg"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": \"3\",\r\n    \"subject\": \"djhfjd\",\r\n    \"_id\": \"64a27956785e5102463b3eb0\",\r\n    \"message\": \"ndfdniuf mjkhgk\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/jobServices/job/giverating/64a27cc39a92744c593853e4"
+					},
+					"response": []
+				},
+				{
+					"name": "viewed_count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/jobServices/viewed_count/64a004ee41d5bbfc791b8558"
 					},
 					"response": []
 				}
@@ -1219,6 +1316,74 @@
 						"method": "DELETE",
 						"header": [],
 						"url": "localhost:3006/api/v1/jobType/6458dfff4414d9cd0b5347bd"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Job rating Topic",
+			"item": [
+				{
+					"name": "job  ratingTopic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"topic\":\"Culture and value\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/ratingTopic"
+					},
+					"response": []
+				},
+				{
+					"name": "getall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/ratingTopic"
+					},
+					"response": []
+				},
+				{
+					"name": "getby id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/ratingTopic/64a2798a785e5102463b3eb6"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"topic\": \"Work Life Balance\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/ratingTopic/64a27956785e5102463b3eb0"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3006/api/v1/ratingTopic/64a27956785e5102463b3eb0"
 					},
 					"response": []
 				}
@@ -1803,6 +1968,50 @@
 						"method": "GET",
 						"header": [],
 						"url": "localhost:3006/api/v1/auth/GetAllPayments"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "sendNotification",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODIxNDc4MiwiZXhwIjoxNjg4MzAxMTgyfQ.LLzytUnIbc3623JyjGPptH0qPPvqOntwsMcmQAeGcXU"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sendTo\": \"\", // DRIVER, EMPLOYER\r\n    \"total\": \"\", // ALL || SINGLE\r\n    \"_id\": \"\",\r\n    \"title\": \"\",\r\n    \"body\": \"\",\r\n    \"date\": \"\",\r\n    \"time\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3006/api/v1/admin/notification/sendNotification"
+					},
+					"response": []
+				},
+				{
+					"name": "allNotification",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTAxODBhMGM4NzBkNzU3NjlhY2JjNSIsImlhdCI6MTY4ODIxNDc4MiwiZXhwIjoxNjg4MzAxMTgyfQ.LLzytUnIbc3623JyjGPptH0qPPvqOntwsMcmQAeGcXU"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3006/api/v1/admin/notification/allNotification"
 					},
 					"response": []
 				}
