@@ -98,33 +98,6 @@ const jobService_Schema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    rating: [{
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
-      },
-      subject: {
-        type: String
-      },
-      message: {
-        type: String
-      },
-      rating: {
-        type: Number,
-      },
-      date: {
-        type: Date,
-        default: Date.now,
-      },
-    }],
-    averageRating: {
-      type: Number,
-      default: 0
-    },
-    totalRating: {
-      type: Number,
-      default: 0
-    },
     applicantCount: {
       type: Number,
       default: 0
@@ -137,6 +110,10 @@ const jobService_Schema = mongoose.Schema(
       type: objectid,
       ref: "users",
     }],
+    rating: {
+      type: objectid,
+      ref: "jobRatingModel",
+    },
     status: {
       type: String,
       default: ""

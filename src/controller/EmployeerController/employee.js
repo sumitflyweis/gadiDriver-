@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const JobService = require("../../model/Job");
 const userSchema = require("../../model/userModel");
 const jobApplicant = require("../../model/jobApplicant");
+const jobRatingModel = require("../../model/jobRatingModel");
+const ratingTopic = require("../../model/ratingTopic");
 exports.createJobService = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
@@ -58,7 +60,7 @@ exports.getJobService = async (req, res) => {
 exports.getJobServiceById = async (req, res) => {
   try {
     const { id } = req.params;
-    const jobService = await JobService.findById(id).populate("language subscription");
+    const jobService = await JobService.findById(id).populate("userId jobtype vehicletype language likeUser");
     if (!jobService) {
       res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
     } else {
@@ -366,3 +368,67 @@ exports.addLike = async (req, res) => {
     res.status(500).json({ status: 500, error: "Internal server error" });
   }
 };
+// exports.giveRatingToJob = async (req, res) => {
+//   try {
+//     let findUser = await userSchema.findOne({ _id: req.user._id });
+//     if (!findUser) {
+//       res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+//     } else {
+//       let findJob = await JobService.findOne({ _id: req.params.id });
+//       if (findJob) {
+//         let findRating = await jobRatingModel.findOne({ jobId: findJob._id })
+//         if (findRating) {
+
+//         } else {
+//           let findTopic = await ratingTopic.findById({ _id: req.body._id });
+          
+//         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//         // if (findRating) {
+//         //   let obj = { userId: findUser._id, rating: req.body.rating, comment: req.body.comment, date: Date.now() };
+//         //   let averageRating = (((findRating.averageRating * findRating.rating.length) + req.body.rating) / (findRating.rating.length + 1));
+//         //   let update = await rating.findByIdAndUpdate({ _id: findRating._id }, { $set: { averageRating: parseFloat(averageRating).toFixed(2), totalRating: findRating.rating.length + 1 }, $push: { rating: obj } }, { new: true });
+//         //   if (update) {
+//         //     return res.status(200).json({ status: 200, message: "Rating given successfully.", data: update });
+//         //   }
+//         // } else {
+//         //   let data = {
+//         //     userId: findUsers._id,
+//         //     rating: [{
+//         //       userId: findUser._id,
+//         //       rating: req.body.rating,
+//         //       comment: req.body.comment,
+//         //       date: Date.now(),
+//         //     }],
+//         //     averageRating: req.body.rating,
+//         //     totalRating: 1
+//         //   }
+//         //   const Data = await rating.create(data);
+//         //   if (Data) {
+//         //     return res.status(200).json({ status: 200, message: "Rating given successfully.", data: Data });
+//         //   }
+//         // }
+//       } else {
+//         res.status(404).json({ message: "Job Not found.", status: 404 });
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.status(501).send({
+//       message: "server error.",
+//       data: {},
+//     });
+//   }
+// };

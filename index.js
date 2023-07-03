@@ -46,6 +46,7 @@ app.use('/api/v1/video', require('./src/route/Admin/vedio'))
 app.use('/api/v1/petrolrate', require('./src/route/Admin/rateOfpetrolRate'))
 app.use("/api/v1/subscription", require('./src/route/Admin/subscription'))
 app.use("/api/v1/posts", require('./src/route/Auth/post'))
+app.use("/api/v1/ratingTopic", require('./src/route/Admin/ratingTopic'))
 
 
 
