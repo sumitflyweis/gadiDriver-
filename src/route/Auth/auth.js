@@ -11,6 +11,7 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage: storage });
 var cpUpload = upload.fields([{ name: 'frontImage', maxCount: 1 }, { name: 'backImage', maxCount: 1 }]);
+customerRouter.post('/signUp', auth.registration);
 customerRouter.post('/login', auth.login);
 customerRouter.post('/verify/:id', auth.verify)
 customerRouter.get('/getProfile', authJwt.verifyToken, auth.getProfile)

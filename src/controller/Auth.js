@@ -9,8 +9,7 @@ const addharcard = require("../model/addharverification");
 const rating = require("../model/ratingModel");
 const SubscriptionSchema = require("../model/subscription");
 const payment = require("../model/payment");
-
-exports.login = async (req, res) => {
+exports.registration = async (req, res) => {
   try {
     const { phone, role, gender } = req.body;
     const data = await userSchema.findOne({ phone: phone, role: role });
@@ -19,11 +18,24 @@ exports.login = async (req, res) => {
       let refferalCode = await reffralCode();
       let obj = { phone: phone, gender: gender, role: role, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp, otpVerification: false, refferalCode: refferalCode }
       const newUser = await userSchema.create(obj);
-      res.status(200).send({ message: "data created successfully", newUser: newUser });
+      res.status(200).send({ message: "data created successfully", data: newUser });
+    } else {
+      res.status(409).send({ status: 409, message: "User already exits.", data: {} });
+    }
+  } catch (err) {
+    return res.status(500).json({ status: 500, message: err.message });
+  }
+};
+exports.login = async (req, res) => {
+  try {
+    const { phone, role, gender } = req.body;
+    const data = await userSchema.findOne({ phone: phone, role: role });
+    if (!data) {
+      res.status(404).send({ status: 404, message: "User not found.", data: {} });
     } else {
       const otp = Math.floor(Math.random() * 1000000 + 1);
       let update = await userSchema.findByIdAndUpdate({ _id: data._id }, { $set: { gender: gender, otpVerification: false, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp } }, { new: true });
-      res.status(200).send({ message: "OTP sent successfully", newUser: update });
+      res.status(200).send({ message: "OTP sent successfully", data: update });
     }
   } catch (err) {
     return res.status(500).json({ status: 500, message: err.message });
