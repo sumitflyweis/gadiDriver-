@@ -13,6 +13,7 @@ const upload = multer({ storage: storage });
 var cpUpload = upload.fields([{ name: 'frontImage', maxCount: 1 }, { name: 'backImage', maxCount: 1 }]);
 customerRouter.post('/signUp', auth.registration);
 customerRouter.post('/login', auth.login);
+customerRouter.post('/resendOtp/:id', auth.resendOtp)
 customerRouter.post('/verify/:id', auth.verify)
 customerRouter.get('/getProfile', authJwt.verifyToken, auth.getProfile)
 customerRouter.put('/createDriver', authJwt.verifyToken, auth.createDriver)

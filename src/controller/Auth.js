@@ -41,6 +41,20 @@ exports.login = async (req, res) => {
     return res.status(500).json({ status: 500, message: err.message });
   }
 };
+exports.resendOtp = async (req, res) => {
+  try {
+    const data = await userSchema.findOne({ _id: req.params.id });
+    if (!data) {
+      res.status(404).send({ status: 404, message: "User not found.", data: {} });
+    } else {
+      const otp = Math.floor(Math.random() * 1000000 + 1);
+      let update = await userSchema.findByIdAndUpdate({ _id: data._id }, { $set: { gender: gender, otpVerification: false, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp } }, { new: true });
+      res.status(200).send({ message: "OTP sent successfully", data: update });
+    }
+  } catch (err) {
+    return res.status(500).json({ status: 500, message: err.message });
+  }
+};
 exports.verify = async (req, res) => {
   try {
     const { otp } = req.body;
