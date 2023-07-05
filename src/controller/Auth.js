@@ -18,7 +18,8 @@ exports.registration = async (req, res) => {
       let refferalCode = await reffralCode();
       let obj = { phone: phone, gender: gender, role: role, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp, otpVerification: false, refferalCode: refferalCode }
       const newUser = await userSchema.create(obj);
-      res.status(200).send({ message: "data created successfully", data: newUser });
+      const accessToken = jwt.sign({ id: newUser._id }, process.env.SECRET, { expiresIn: '24h', });
+      res.status(200).send({ message: "data created successfully", accessToken: accessToken, profileComplete: newUser.profileComplete, data: newUser });
     } else {
       res.status(409).send({ status: 409, message: "User already exits.", data: {} });
     }
