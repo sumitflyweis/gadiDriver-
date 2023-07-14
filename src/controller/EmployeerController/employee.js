@@ -7,12 +7,24 @@ const userSchema = require("../../model/userModel");
 const jobApplicant = require("../../model/jobApplicant");
 const jobRatingModel = require("../../model/jobRatingModel");
 const ratingTopic = require("../../model/ratingTopic");
+const JobType = require("../../model/jobType");
+const VehicleType = require('../../model/vehicletype');
 exports.createJobService = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
       res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
+      const findJobType = await JobType.findById(req.body.jobtype);
+      if (!findJobType) {
+        res.status(404).send({ status: 404, message: "JobType Not found", data: {} });
+      }
+      const findVehicleType = await VehicleType.findById(req.body.vehicletype);
+      if (!findVehicleType) {
+        res.status(404).send({ status: 404, message: "VehicleType Not found", data: {} });
+      }
+      req.body.jobtypeInWord = findJobType.jobType;
+      req.body.vehicletypeInWord = findVehicleType.vehicletype;
       let fileUrl;
       if (req.file) {
         fileUrl = req.file ? req.file.path : "";
@@ -46,7 +58,32 @@ exports.getJobServicebyToken = async (req, res) => {
 };
 exports.getJobService = async (req, res) => {
   try {
-    const jobService = await JobService.find().populate("userId jobtype vehicletype language likeUser");
+    let query = {};
+    if (req.body.search != (null || undefined)) {
+      query.$or = [
+        { jobtitle: { $regex: req.body.search, $options: 'i' } },
+        { gender: { $regex: req.body.search, $options: 'i' } },
+        { description: { $regex: req.body.search, $options: 'i' } },
+        { contactNumber: { $regex: req.body.search, $options: 'i' } },
+      ]
+    }
+    if (req.body.location != (null || undefined)) {
+      query.$or = [
+        { location: { $regex: req.body.location, $options: 'i' } },
+        { address: { $regex: req.body.location, $options: 'i' } },
+      ]
+    }
+    if (req.body.jobtype != (null || undefined)) {
+      query.$or = [
+        { jobtypeInWord: { $regex: req.body.jobtype, $options: 'i' } },
+      ]
+    }
+    if (req.body.vehicletype != (null || undefined)) {
+      query.$or = [
+        { vehicletypeInWord: { $regex: req.body.vehicletype, $options: 'i' } },
+      ]
+    }
+    const jobService = await JobService.find(query).populate("userId jobtype vehicletype language likeUser");
     if (jobService.length == 0) {
       res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
     } else {
@@ -400,7 +437,7 @@ exports.giveRatingToJob = async (req, res) => {
                 for (let i = 0; i < findRating.topicId.length; i++) {
                   if ((findRating.topicId[i].ratingTopicId).toString() == (findTopic._id).toString()) {
                     let averageRating = (((findRating.topicId[i].rating * findRating.topicId[i].totalRating) + req.body.rating) / (findRating.topicId[i].totalRating + 1));
-                    let update = await jobRatingModel.findOneAndUpdate({ _id: findRating._id, 'topicId.ratingTopicId': findTopic._id }, {$set:{'topicId.$.rating':averageRating, 'topicId.$.totalRating': findRating.topicId[i].totalRating + 1}}, { new: true })
+                    let update = await jobRatingModel.findOneAndUpdate({ _id: findRating._id, 'topicId.ratingTopicId': findTopic._id }, { $set: { 'topicId.$.rating': averageRating, 'topicId.$.totalRating': findRating.topicId[i].totalRating + 1 } }, { new: true })
                     if (update) {
                       return res.status(200).json({ status: 200, message: "Rating given successfully.", data: update });
                     }

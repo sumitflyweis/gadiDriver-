@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate");
+const mongooseAggregatePaginate = require("mongoose-aggregate-paginate");
 const objectid = mongoose.Schema.Types.ObjectId;
 const jobService_Schema = mongoose.Schema(
   {
@@ -14,9 +16,15 @@ const jobService_Schema = mongoose.Schema(
       type: objectid,
       ref: "jobType",
     },
+    jobtypeInWord: {
+      type: String,
+    },
     vehicletype: {
       type: objectid,
       ref: "vehicletype",
+    },
+    vehicletypeInWord: {
+      type: String,
     },
     gender: {
       type: String,
@@ -121,4 +129,6 @@ const jobService_Schema = mongoose.Schema(
   }, { timestamps: true, }
 );
 
+jobService_Schema.plugin(mongoosePaginate);
+jobService_Schema.plugin(mongooseAggregatePaginate);
 module.exports = mongoose.model("Job", jobService_Schema);
