@@ -59,28 +59,28 @@ exports.getJobServicebyToken = async (req, res) => {
 exports.getJobService = async (req, res) => {
   try {
     let query = {};
-    if (req.body.search != (null || undefined)) {
+    if (req.query.search != (null || undefined)) {
       query.$or = [
-        { jobtitle: { $regex: req.body.search, $options: 'i' } },
-        { gender: { $regex: req.body.search, $options: 'i' } },
-        { description: { $regex: req.body.search, $options: 'i' } },
-        { contactNumber: { $regex: req.body.search, $options: 'i' } },
+        { jobtitle: { $regex: req.query.search, $options: 'i' } },
+        { gender: { $regex: req.query.search, $options: 'i' } },
+        { description: { $regex: req.query.search, $options: 'i' } },
+        { contactNumber: { $regex: req.query.search, $options: 'i' } },
       ]
     }
-    if (req.body.location != (null || undefined)) {
+    if (req.query.location != (null || undefined)) {
       query.$or = [
-        { location: { $regex: req.body.location, $options: 'i' } },
-        { address: { $regex: req.body.location, $options: 'i' } },
+        { location: { $regex: req.query.location, $options: 'i' } },
+        { address: { $regex: req.query.location, $options: 'i' } },
       ]
     }
-    if (req.body.jobtype != (null || undefined)) {
+    if (req.query.jobtype != (null || undefined)) {
       query.$or = [
-        { jobtypeInWord: { $regex: req.body.jobtype, $options: 'i' } },
+        { jobtypeInWord: { $regex: req.query.jobtype, $options: 'i' } },
       ]
     }
-    if (req.body.vehicletype != (null || undefined)) {
+    if (req.query.vehicletype != (null || undefined)) {
       query.$or = [
-        { vehicletypeInWord: { $regex: req.body.vehicletype, $options: 'i' } },
+        { vehicletypeInWord: { $regex: req.query.vehicletype, $options: 'i' } },
       ]
     }
     const jobService = await JobService.find(query).populate("userId jobtype vehicletype language likeUser");
