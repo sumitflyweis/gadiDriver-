@@ -13,7 +13,7 @@ const Employee_OwnerSchema = mongoose.Schema(
                 otp: { type: String, default: "", },
                 otpVerification: { type: Boolean, default: false, },
                 otpExpire: { type: Date, },
-                role: { type: String, enum: ["DRIVER", "EMPLOYER", "ADMIN"], },
+                role: { type: String, enum: ["DRIVER", "EMPLOYER", "SUBADMIN", "ADMIN"], },
                 companyType: { type: String, enum: ["COMPANY", "INDIVISUAL"], },
                 profileComplete: { type: Boolean, default: false, },
                 mobileNumber: { type: String, },
@@ -59,6 +59,78 @@ const Employee_OwnerSchema = mongoose.Schema(
                                 type: String,
                         },
                 }],
+                permissions: {
+                        addCategory: {
+                                type: Boolean,
+                        },
+                        editCategory: {
+                                type: Boolean,
+                        },
+                        viewCategory: {
+                                type: Boolean,
+                        },
+                        deleteCategory: {
+                                type: Boolean,
+                        },
+                        listCategory: {
+                                type: Boolean,
+                        },
+                        addCategoryInterest: {
+                                type: Boolean,
+                        },
+                        editCategoryInterest: {
+                                type: Boolean,
+                        },
+                        viewCategoryInterest: {
+                                type: Boolean,
+                        },
+                        deleteCategoryInterest: {
+                                type: Boolean,
+                        },
+                        listCategoryInterest: {
+                                type: Boolean,
+                        },
+                        addJobType: {
+                                type: Boolean,
+                        },
+                        editJobType: {
+                                type: Boolean,
+                        },
+                        viewJobType: {
+                                type: Boolean,
+                        },
+                        deleteJobType: {
+                                type: Boolean,
+                        },
+                        listJobType: {
+                                type: Boolean,
+                        },
+                        addvehicletype: {
+                                type: Boolean,
+                        },
+                        editvehicletype: {
+                                type: Boolean,
+                        },
+                        viewvehicletype: {
+                                type: Boolean,
+                        },
+                        deletevehicletype: {
+                                type: Boolean,
+                        },
+                        listvehicletype: {
+                                type: Boolean,
+                        },
+                        postManagement: {
+                                type: Boolean,
+                        },
+                        userManagement: {
+                                type: Boolean,
+                        },
+                        notificationManagement: {
+                                type: Boolean,
+                        },
+                },
+
         },
         {
                 timestamps: true,

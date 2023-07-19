@@ -7,7 +7,7 @@ exports.createUser = async (req, res) => {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newAdmin = new User({ name, email, password: hashedPassword, role, });
+    const newAdmin = new User({ name, email, password: hashedPassword, role: "ADMIN" });
     const savedAdmin = await newAdmin.save();
     res.json(savedAdmin);
   } catch (err) {
@@ -18,13 +18,12 @@ exports.createUser = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email, role: "ADMIN" });
+    const user = await User.findOne({ email: email, role: ["ADMIN", "SUBADMIN"] });
     if (!user) { return res.status(401).json({ error: "Invalid email or password" }); }
     const passwordIsValid = bcrypt.compareSync(password, user.password);
     if (!passwordIsValid) {
       return res.status(401).send({ message: "Wrong password", });
     }
-
     const accessToken = jwt.sign({ id: user._id }, process.env.SECRET, {
       expiresIn: "1d",
     });
@@ -40,6 +39,18 @@ exports.getAllUsers = async (req, res) => {
       return res.status(404).json({ status: 404, message: "User not found" });
     } else {
       return res.status(200).json({ status: 200, message: "All Employee found.", data: users, });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+exports.getAllsubAdmins = async (req, res) => {
+  try {
+    const users = await User.find({ role: "SUBADMIN" });
+    if (users.length == 0) {
+      return res.status(404).json({ status: 404, message: "User not found" });
+    } else {
+      return res.status(200).json({ status: 200, message: "All Driver found.", data: users, });
     }
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -274,3 +285,60 @@ exports.verifyadminotp = async (req, res) => {
 //   this.passwordResetExpires = Date.now() + 30 * 60 * 1000; // 10 minutes
 //   return resettoken;
 // };
+exports.addsubAdmin = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    let findAdmin = await User.findOne({ name, email, password, role: "SUBADMIN" });
+    if (findAdmin) {
+      return res.status(409).json({ status: 409, message: "Already exit" });
+    } else {
+      req.body.password = bcrypt.hashSync(req.body.password);
+      req.body.role = "SUBADMIN";
+      let saveAdmin = await User(req.body).save();
+      if (saveAdmin) {
+        return res.status(200).json({ status: 200, message: "Sub Admin", data: saveAdmin });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(501).send({ status: 501, message: "Server Error", });
+  }
+}
+exports.editsubAdmin = async (req, res) => {
+  try {
+    let data = await User.findById({ _id: req.params.id });
+    if (!data) {
+      return res.status(404).json({ status: 404, message: "User Not found" });
+    } else {
+      let findAdmin = await User.findOne({ _id: { $ne: data._id }, email: req.body.email, role: "SUBADMIN" });
+      if (findAdmin) {
+        return res.status(409).json({ status: 409, message: "Already exit" });
+      } else {
+        req.body.password = bcrypt.hashSync(req.body.password) || data.password;
+        let updateResult = await User.findByIdAndUpdate({ _id: data._id }, { $set: req.body }, { new: true });
+        if (updateResult) {
+          return res.status(200).json({ status: 200, message: "Sub Admin update successfully", data: updateResult });
+        }
+      }
+    }
+  } catch (error) {
+    return res.status(501).send({ status: 501, message: "Server Error", });
+  }
+}
+exports.addEmployee = async (req, res) => {
+  try {
+    let findAdmin = await User.findOne({ name, email, password, role: "EMPLOYER" });
+    if (findAdmin) {
+      return res.status(409).json({ status: 409, message: "Already exit" });
+    } else {
+      req.body.role = "EMPLOYER";
+      let saveAdmin = await User(req.body).save();
+      if (saveAdmin) {
+        return res.status(200).json({ status: 200, message: "Sub Admin", data: saveAdmin });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(501).send({ status: 501, message: "Server Error", });
+  }
+}
