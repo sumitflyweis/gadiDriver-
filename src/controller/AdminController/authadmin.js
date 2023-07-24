@@ -7,7 +7,35 @@ exports.createUser = async (req, res) => {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newAdmin = new User({ name, email, password: hashedPassword, role: "ADMIN" });
+    let permissions = {
+      addCategory: true,
+      editCategory: true,
+      viewCategory: true,
+      deleteCategory: true,
+      addCategoryInterest: true,
+      editCategoryInterest: true,
+      viewCategoryInterest: true,
+      deleteCategoryInterest: true,
+      addJobType: true,
+      editJobType: true,
+      viewJobType: true,
+      deleteJobType: true,
+      addvehicletype: true,
+      editvehicletype: true,
+      viewvehicletype: true,
+      deletevehicletype: true,
+      postManagement: true,
+      addEmployee: true,
+      editEmployee: true,
+      viewEmployee: true,
+      deleteEmployee: true,
+      addDriver: true,
+      editDriver: true,
+      viewDriver: true,
+      deleteDriver: true,
+      notificationManagement: true,
+    };
+    const newAdmin = new User({ name, email, password: hashedPassword, permissions, role: "ADMIN" });
     const savedAdmin = await newAdmin.save();
     res.json(savedAdmin);
   } catch (err) {
