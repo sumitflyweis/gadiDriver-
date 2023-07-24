@@ -316,6 +316,9 @@ exports.editsubAdmin = async (req, res) => {
         return res.status(409).json({ status: 409, message: "Already exit" });
       } else {
         req.body.password = bcrypt.hashSync(req.body.password) || data.password;
+        req.body.name = req.body.name || data.name;
+        req.body.email = req.body.email || data.email;
+        req.body.permissions = req.body.permissions || data.permissions;
         let updateResult = await User.findByIdAndUpdate({ _id: data._id }, { $set: req.body }, { new: true });
         if (updateResult) {
           return res.status(200).json({ status: 200, message: "Sub Admin update successfully", data: updateResult });
