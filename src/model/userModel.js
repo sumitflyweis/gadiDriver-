@@ -111,9 +111,6 @@ const Employee_OwnerSchema = mongoose.Schema(
                         postManagement: {
                                 type: Boolean,
                         },
-                        EmployeeManagement: {
-                                type: Boolean,
-                        },
                         addEmployee: {
                                 type: Boolean,
                         },
