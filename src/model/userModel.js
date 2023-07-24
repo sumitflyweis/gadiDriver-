@@ -72,9 +72,6 @@ const Employee_OwnerSchema = mongoose.Schema(
                         deleteCategory: {
                                 type: Boolean,
                         },
-                        listCategory: {
-                                type: Boolean,
-                        },
                         addCategoryInterest: {
                                 type: Boolean,
                         },
@@ -85,9 +82,6 @@ const Employee_OwnerSchema = mongoose.Schema(
                                 type: Boolean,
                         },
                         deleteCategoryInterest: {
-                                type: Boolean,
-                        },
-                        listCategoryInterest: {
                                 type: Boolean,
                         },
                         addJobType: {
@@ -102,9 +96,6 @@ const Employee_OwnerSchema = mongoose.Schema(
                         deleteJobType: {
                                 type: Boolean,
                         },
-                        listJobType: {
-                                type: Boolean,
-                        },
                         addvehicletype: {
                                 type: Boolean,
                         },
@@ -115,9 +106,6 @@ const Employee_OwnerSchema = mongoose.Schema(
                                 type: Boolean,
                         },
                         deletevehicletype: {
-                                type: Boolean,
-                        },
-                        listvehicletype: {
                                 type: Boolean,
                         },
                         postManagement: {
@@ -136,9 +124,6 @@ const Employee_OwnerSchema = mongoose.Schema(
                                 type: Boolean,
                         },
                         deleteEmployee: {
-                                type: Boolean,
-                        },
-                        driverManagement: {
                                 type: Boolean,
                         },
                         addDriver: {
