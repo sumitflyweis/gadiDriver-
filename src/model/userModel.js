@@ -123,7 +123,34 @@ const Employee_OwnerSchema = mongoose.Schema(
                         postManagement: {
                                 type: Boolean,
                         },
-                        userManagement: {
+                        EmployeeManagement: {
+                                type: Boolean,
+                        },
+                        addEmployee: {
+                                type: Boolean,
+                        },
+                        editEmployee: {
+                                type: Boolean,
+                        },
+                        viewEmployee: {
+                                type: Boolean,
+                        },
+                        deleteEmployee: {
+                                type: Boolean,
+                        },
+                        driverManagement: {
+                                type: Boolean,
+                        },
+                        addDriver: {
+                                type: Boolean,
+                        },
+                        editDriver: {
+                                type: Boolean,
+                        },
+                        viewDriver: {
+                                type: Boolean,
+                        },
+                        deleteDriver: {
                                 type: Boolean,
                         },
                         notificationManagement: {
