@@ -359,7 +359,7 @@ exports.editsubAdmin = async (req, res) => {
 }
 exports.addEmployee = async (req, res) => {
   try {
-    let findAdmin = await User.findOne({ name, email, password, role: "EMPLOYER" });
+    let findAdmin = await User.findOne({ phone: req.body.phone, email: req.body.email, role: "EMPLOYER" });
     if (findAdmin) {
       return res.status(409).json({ status: 409, message: "Already exit" });
     } else {
