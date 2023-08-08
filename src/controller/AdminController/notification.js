@@ -17,7 +17,8 @@ exports.sendNotification = async (req, res) => {
                                                         title: req.body.title,
                                                         body: req.body.body,
                                                         date: req.body.date,
-                                                        time: req.body.date,
+                                                        image: req.body.image,
+                                                        time: req.body.time,
                                                 }
                                                 await notification.create(obj)
                                         }
@@ -26,7 +27,8 @@ exports.sendNotification = async (req, res) => {
                                                 title: req.body.title,
                                                 body: req.body.body,
                                                 date: req.body.date,
-                                                time: req.body.date,
+                                                image: req.body.image,
+                                                time: req.body.time,
                                         }
                                         await notification.create(obj1)
                                         return res.status(200).json({ status: 200, message: "Notification send successfully." });
@@ -42,7 +44,8 @@ exports.sendNotification = async (req, res) => {
                                                 title: req.body.title,
                                                 body: req.body.body,
                                                 date: req.body.date,
-                                                time: req.body.date,
+                                                image: req.body.image,
+                                                time: req.body.time,
                                         }
                                         let data = await notification.create(obj)
                                         if (data) {
@@ -51,7 +54,8 @@ exports.sendNotification = async (req, res) => {
                                                         title: req.body.title,
                                                         body: req.body.body,
                                                         date: req.body.date,
-                                                        time: req.body.date,
+                                                        image: req.body.image,
+                                                        time: req.body.time,
                                                 }
                                                 await notification.create(obj1)
                                                 return res.status(200).json({ status: 200, message: "Notification send successfully.", data: data });

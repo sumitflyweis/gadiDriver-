@@ -42,6 +42,7 @@ const Employee_OwnerSchema = mongoose.Schema(
                 }],
                 frontImage: { type: String, default: "", },
                 backImage: { type: String, default: "", },
+                licenseVerification: { type: String, enum: ["PENDING", "ACCEPT", "REJECT"], default: "PENDING" },
                 photoUpload: { type: String, default: "", },
                 jobServicesId: [{ type: objectid, ref: "jobService", }],
                 employerAction: { type: String, default: "", },

@@ -21,5 +21,6 @@ router.put("/changePassword", authJwt.verifyToken, UserController.changePassword
 router.post("/addsubAdmin", authJwt.verifyToken, UserController.addsubAdmin);
 router.put("/editsubAdmin/:id", authJwt.verifyToken, UserController.editsubAdmin);
 router.post("/addEmployee", authJwt.verifyToken, UserController.addEmployee);
+router.put("/licenseVerification/:userId", authJwt.verifyToken, UserController.licenseVerification);
 
 module.exports = router;

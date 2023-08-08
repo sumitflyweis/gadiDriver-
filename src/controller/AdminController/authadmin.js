@@ -374,3 +374,18 @@ exports.addEmployee = async (req, res) => {
     return res.status(501).send({ status: 501, message: "Server Error", });
   }
 }
+exports.licenseVerification = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ status: 404, message: "User not found" });
+    }
+    let update = await User.findByIdAndUpdate({ _id: user._id }, { $set: { licenseVerification: req.body.status } }, { new: true })
+    if (update) {
+      return res.status(200).json({ status: 200, message: "License Verification" });
+    }
+    return res.status(200).json({ status: 200, message: "user found.", data: user, });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
