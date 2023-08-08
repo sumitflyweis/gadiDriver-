@@ -11,12 +11,12 @@ const SubscriptionSchema = require("../model/subscription");
 const payment = require("../model/payment");
 exports.registration = async (req, res) => {
   try {
-    const { phone, role, gender } = req.body;
+    const { phone, role, gender, deviceToken } = req.body;
     const data = await userSchema.findOne({ phone: phone, role: role });
     if (!data) {
       const otp = Math.floor(Math.random() * 1000000 + 1);
       let refferalCode = await reffralCode();
-      let obj = { phone: phone, gender: gender, role: role, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp, otpVerification: false, refferalCode: refferalCode }
+      let obj = { phone: phone, gender: gender, role: role, deviceToken: deviceToken, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp, otpVerification: false, refferalCode: refferalCode }
       const newUser = await userSchema.create(obj);
       const accessToken = jwt.sign({ id: newUser._id }, process.env.SECRET, { expiresIn: '24h', });
       res.status(200).send({ message: "data created successfully", accessToken: accessToken, profileComplete: newUser.profileComplete, data: newUser });
@@ -58,7 +58,7 @@ exports.resendOtp = async (req, res) => {
 };
 exports.verify = async (req, res) => {
   try {
-    const { otp } = req.body;
+    const { otp, deviceToken } = req.body;
     const user = await userSchema.findById(req.params.id);
     if (!user) {
       return res.status(404).send({ message: "user not found" });
@@ -66,7 +66,7 @@ exports.verify = async (req, res) => {
     if (user.otp !== otp || user.otpExpire < Date.now()) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
-    const updated = await userSchema.findByIdAndUpdate({ _id: user._id }, { otpVerification: true }, { new: true });
+    const updated = await userSchema.findByIdAndUpdate({ _id: user._id }, { otpVerification: true, deviceToken: deviceToken }, { new: true });
     const accessToken = jwt.sign({ id: user._id }, process.env.SECRET, { expiresIn: '24h', });
     res.status(200).send({ message: "logged in successfully", accessToken: accessToken, profileComplete: updated.profileComplete, data: updated });
   } catch (err) {

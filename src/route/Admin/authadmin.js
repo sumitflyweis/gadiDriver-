@@ -3,7 +3,7 @@ const router = express.Router();
 const UserController = require("../../controller/AdminController/authadmin");
 const notificationController = require("../../controller/AdminController/notification");
 const authJwt = require('../../middlewares/authJwt')
-
+const post = require("../../controller/EmployeerController/post");
 router.post("/", UserController.createUser);
 router.post("/login", UserController.login);
 router.get("/Users", authJwt.verifyToken, UserController.getAllUsers);
@@ -22,5 +22,6 @@ router.post("/addsubAdmin", authJwt.verifyToken, UserController.addsubAdmin);
 router.put("/editsubAdmin/:id", authJwt.verifyToken, UserController.editsubAdmin);
 router.post("/addEmployee", authJwt.verifyToken, UserController.addEmployee);
 router.put("/licenseVerification/:userId", authJwt.verifyToken, UserController.licenseVerification);
+router.get("/report/getAllReport", authJwt.verifyToken, post.getAllReport);
 
 module.exports = router;

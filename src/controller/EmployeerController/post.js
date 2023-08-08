@@ -1,5 +1,6 @@
 const PostModel = require('../../model/post');
 const userSchema = require("../../model/userModel");
+const report = require('../../model/report');
 
 exports.createPost = async (req, res) => {
   try {
@@ -157,4 +158,56 @@ exports.addComment = async (req, res) => {
     res.status(500).json({ error: 'An error occurred while adding the comment' });
   }
 };
-
+exports.reportOnPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let findUser = await userSchema.findOne({ _id: req.user._id });
+    if (!findUser) {
+      res.status(404).json({ message: "User Not found.", status: 404 });
+    } else {
+      const posts = await PostModel.findById(id);
+      if (!posts) {
+        res.status(404).json({ message: "Post Not found.", status: 404 });
+      } else {
+        const findReports = await report.findOne({ postId: id });
+        if (!findReports) {
+          let reportArray = [];
+          let obj = { user: findUser._id, Comment: req.body.comment, }
+          reportArray.push(obj)
+          let reports = { postId: posts._id, reportCount: 1, report: reportArray, }
+          const newCategory = await report.create(reports);
+          if (newCategory) {
+            const updatedPost = await PostModel.findByIdAndUpdate(id, { $set: { reportCount: posts.reportCount + 1 } }, { new: true });
+            if (updatedPost) {
+              res.status(200).json({ status: 200, message: "Report on post.", data: updatedPost });
+            }
+          }
+        } else {
+          let obj = { user: findUser._id, Comment: req.body.comment, }
+          const newCategory = await report.findByIdAndUpdate(findReports._id, { $set: { reportCount: findReports.reportCount + 1 }, $push: { report: obj } }, { new: true });
+          if (newCategory) {
+            const updatedPost = await PostModel.findByIdAndUpdate(id, { $set: { reportCount: posts.reportCount + 1 } }, { new: true });
+            if (updatedPost) {
+              res.status(200).json({ status: 200, message: "Report on post.", data: updatedPost });
+            }
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while updating the post' });
+  }
+};
+exports.getAllReport = async (req, res) => {
+  try {
+    const posts = await report.find().lean().populate('postId')
+    if (posts.length == 0) {
+      res.status(404).json({ message: "All Report Not found.", status: 404 });
+    }
+    res.status(200).send({ status: 200, message: "All Report Found successfully.", data: posts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching the posts' });
+  }
+};

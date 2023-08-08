@@ -28,6 +28,10 @@ const postSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  reportCount: {
+    type: Number,
+    default: 0,
+  },
   Comment: [{
     user: {
       type: mongoose.Schema.Types.ObjectId,

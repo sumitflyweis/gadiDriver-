@@ -3,6 +3,7 @@ const objectid = mongoose.Schema.Types.ObjectId;
 const Employee_OwnerSchema = mongoose.Schema(
         {
                 name: { type: String, default: "" },
+                deviceToken: { type: String, default: "" },
                 refferalCode: { type: String, default: "" },
                 wallet: { type: Number, default: 0, },
                 email: { type: String, default: "" },

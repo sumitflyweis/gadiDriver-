@@ -11,14 +11,15 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage: storage });
 
-router.post('/createPost',authJwt.verifyToken,postController.createPost);
-router.get('/getAllUserPost', authJwt.verifyToken,postController.getAllUserPost);
+router.post('/createPost', authJwt.verifyToken, postController.createPost);
+router.get('/getAllUserPost', authJwt.verifyToken, postController.getAllUserPost);
 router.get('/all', postController.getAllPosts);
 router.get('/:id', postController.getPostById);
-router.put('/:id', authJwt.verifyToken,postController.updatePost);
-router.delete('/:id', authJwt.verifyToken,postController.deletePost);
-router.post('/like/:id',authJwt.verifyToken, postController.addLike);
-router.post('/comment/:id',authJwt.verifyToken, postController.addComment);
+router.put('/:id', authJwt.verifyToken, postController.updatePost);
+router.delete('/:id', authJwt.verifyToken, postController.deletePost);
+router.post('/like/:id', authJwt.verifyToken, postController.addLike);
+router.post('/comment/:id', authJwt.verifyToken, postController.addComment);
+router.post('/reportOnPost/:id', authJwt.verifyToken, postController.reportOnPost);
 module.exports = router;
 
 
