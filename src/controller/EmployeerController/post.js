@@ -211,3 +211,16 @@ exports.getAllReport = async (req, res) => {
     res.status(500).json({ error: 'An error occurred while fetching the posts' });
   }
 };
+
+exports.viewReport = async (req, res) => {
+  try {
+    const posts = await report.findOne({ postId: req.params.postId }).populate('report.user');
+    if (!posts) {
+      res.status(404).json({ message: "All Report Not found.", status: 404 });
+    }
+    res.status(200).send({ status: 200, message: "All Report Found successfully.", data: posts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching the posts' });
+  }
+};

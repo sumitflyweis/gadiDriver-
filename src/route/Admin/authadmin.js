@@ -23,5 +23,6 @@ router.put("/editsubAdmin/:id", authJwt.verifyToken, UserController.editsubAdmin
 router.post("/addEmployee", authJwt.verifyToken, UserController.addEmployee);
 router.put("/licenseVerification/:userId", authJwt.verifyToken, UserController.licenseVerification);
 router.get("/report/getAllReport", authJwt.verifyToken, post.getAllReport);
+router.get("/viewReport/:postId", authJwt.verifyToken, post.viewReport);
 
 module.exports = router;
