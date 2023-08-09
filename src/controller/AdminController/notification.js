@@ -73,7 +73,7 @@ exports.allNotification = async (req, res) => {
                 if (!admin) {
                         return res.status(404).json({ status: 404, message: "Admin not found" });
                 } else {
-                        let findNotification = await notification.find({ userId: admin._id });
+                        let findNotification = await notification.find({ userId: admin._id }).populate('userId');
                         if (findNotification.length == 0) {
                                 return res.status(404).json({ status: 404, message: "Notification data not found successfully.", data: {} })
                         } else {
