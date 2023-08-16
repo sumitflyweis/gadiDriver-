@@ -37,10 +37,10 @@ exports.createUser = async (req, res) => {
     };
     const newAdmin = new User({ name, email, password: hashedPassword, permissions, role: "ADMIN" });
     const savedAdmin = await newAdmin.save();
-    res.json(savedAdmin);
+    return res.json(savedAdmin);
   } catch (err) {
     console.log(err)
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: err.message });
   }
 }
 exports.login = async (req, res) => {
@@ -132,7 +132,7 @@ exports.updateUser = async (req, res) => {
       }
     }
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: err.message });
   }
 }
 exports.deleteUserById = async (req, res) => {
@@ -169,7 +169,7 @@ exports.changePassword = async (req, res) => {
       }
     }
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: err.message });
   }
 }
 exports.resetpassword = async (req, res) => {
@@ -205,9 +205,9 @@ exports.resetpassword = async (req, res) => {
       }
     });
 
-    res.json(updatedAdmin);
+    return res.json(updatedAdmin);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: err.message });
   }
 }
 exports.forgetpassword = async (req, res) => {
@@ -247,9 +247,9 @@ exports.forgetpassword = async (req, res) => {
       }
     });
 
-    res.json({ msg: updatedAdmin, otp: otp });
+    return res.json({ msg: updatedAdmin, otp: otp });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: err.message });
   }
 }
 exports.verifyadminotp = async (req, res) => {
@@ -298,7 +298,7 @@ exports.verifyadminotp = async (req, res) => {
 //       html: resetURL,
 //     };
 //     sendEmail(data);
-//     res.json(token);
+//    return res.json(token);
 //   } catch (error) {
 //     throw new Error(error);
 //   }

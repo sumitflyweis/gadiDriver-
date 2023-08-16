@@ -13,15 +13,15 @@ exports.createJobService = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       const findJobType = await JobType.findById(req.body.jobtype);
       if (!findJobType) {
-        res.status(404).send({ status: 404, message: "JobType Not found", data: {} });
+        return res.status(404).send({ status: 404, message: "JobType Not found", data: {} });
       }
       const findVehicleType = await VehicleType.findById(req.body.vehicletype);
       if (!findVehicleType) {
-        res.status(404).send({ status: 404, message: "VehicleType Not found", data: {} });
+        return res.status(404).send({ status: 404, message: "VehicleType Not found", data: {} });
       }
       req.body.jobtypeInWord = findJobType.jobType;
       req.body.vehicletypeInWord = findVehicleType.vehicletype;
@@ -36,7 +36,7 @@ exports.createJobService = async (req, res) => {
       if (createdJobService) {
         let update = await userSchema.findByIdAndUpdate({ _id: findUser._id }, { $set: { jobPostCount: findUser.jobPostCount + 1 } }, { new: true });
         if (update) {
-          res.status(200).send({ status: 200, message: "Job Create successfully.", data: createdJobService });
+          return res.status(200).send({ status: 200, message: "Job Create successfully.", data: createdJobService });
         }
       }
     }
@@ -48,7 +48,7 @@ exports.getJobServicebyToken = async (req, res) => {
   try {
     const jobService = await JobService.find({ userId: req.user._id }).populate("userId jobtype vehicletype language likeUser");;
     if (!jobService) {
-      res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+      return res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
     }
     res.status(200).send({ status: 200, message: "Job Found successfully.", data: jobService });
   } catch (error) {
@@ -85,9 +85,9 @@ exports.getJobService = async (req, res) => {
     }
     const jobService = await JobService.find(query).populate("userId jobtype vehicletype language likeUser");
     if (jobService.length == 0) {
-      res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+      return res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
     } else {
-      res.status(200).send({ status: 200, message: "Job Found successfully.", data: jobService });
+      return res.status(200).send({ status: 200, message: "Job Found successfully.", data: jobService });
     }
   } catch (error) {
     console.log(error);
@@ -99,9 +99,9 @@ exports.getJobServiceById = async (req, res) => {
     const { id } = req.params;
     const jobService = await JobService.findById(id).populate("userId jobtype vehicletype language likeUser");
     if (!jobService) {
-      res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+      return res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
     } else {
-      res.status(200).send({ status: 200, message: "Job Found successfully.", data: jobService });
+      return res.status(200).send({ status: 200, message: "Job Found successfully.", data: jobService });
     }
   } catch (error) {
     res.status(500).json({ status: 500, error: "Internal server error" });
@@ -134,7 +134,7 @@ exports.salarayAndExpectation = async (req, res) => {
       }
       const updatedJobService = await JobService.findByIdAndUpdate({ _id: jobService._id }, obj, { new: true });
       if (updatedJobService) {
-        res.status(200).send({ status: 200, message: "Job update successfully.", data: updatedJobService });
+        return res.status(200).send({ status: 200, message: "Job update successfully.", data: updatedJobService });
       }
     }
   } catch (error) {
@@ -173,7 +173,7 @@ exports.updateJobServices = async (req, res) => {
       }
       const updatedJobService = await JobService.findByIdAndUpdate({ _id: jobService._id }, obj, { new: true });
       if (updatedJobService) {
-        res.status(200).send({ status: 200, message: "Job update successfully.", data: updatedJobService });
+        return res.status(200).send({ status: 200, message: "Job update successfully.", data: updatedJobService });
       }
     }
   } catch (error) {
@@ -193,7 +193,7 @@ exports.updateJobImage = async (req, res) => {
       let image = fileUrl;
       const updatedJobService = await JobService.findByIdAndUpdate({ _id: jobService._id }, { $set: { image: image } }, { new: true });
       if (updatedJobService) {
-        res.status(200).send({ status: 200, message: "Job update successfully.", data: updatedJobService });
+        return res.status(200).send({ status: 200, message: "Job update successfully.", data: updatedJobService });
       }
     }
   } catch (error) {
@@ -204,11 +204,11 @@ exports.appliedOnJob = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id, role: "DRIVER" });
     if (!findUser) {
-      res.status(404).json({ message: "Driver Not found.", status: 404 });
+      return res.status(404).json({ message: "Driver Not found.", status: 404 });
     } else {
       const jobService = await JobService.findById({ _id: req.params.id });
       if (!jobService) {
-        res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+        return res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
       } else {
         let obj = {
           emplyeerId: jobService.userId,
@@ -219,7 +219,7 @@ exports.appliedOnJob = async (req, res) => {
         if (createdJobService) {
           let update = await JobService.findByIdAndUpdate({ _id: jobService._id }, { $set: { applicantCount: jobService.applicantCount + 1 } }, { new: true });
           if (update) {
-            res.status(200).send({ status: 200, message: "Job Applied successfully.", data: createdJobService });
+            return res.status(200).send({ status: 200, message: "Job Applied successfully.", data: createdJobService });
           }
         }
       }
@@ -232,13 +232,13 @@ exports.getAllpendingJob = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "Driver Not found.", status: 404 });
+      return res.status(404).json({ message: "Driver Not found.", status: 404 });
     } else {
       const jobService = await jobApplicant.find({ $and: [{ $or: [{ emplyeerId: findUser._id }, { driverId: findUser._id, }] }, { status: "Pending" }] }).populate({ path: 'jobId' }).populate({ path: 'emplyeerId driverId', select: 'firstName lastName photoUpload' });
       if (jobService.length == 0) {
-        res.status(404).send({ status: 404, message: "Pending job service not found.", data: {} });
+        return res.status(404).send({ status: 404, message: "Pending job service not found.", data: {} });
       } else {
-        res.status(200).send({ status: 200, message: "All Pending Job data found successfully.", data: jobService });
+        return res.status(200).send({ status: 200, message: "All Pending Job data found successfully.", data: jobService });
       }
     }
   } catch (error) {
@@ -250,13 +250,13 @@ exports.getAllApprovedJob = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "Driver Not found.", status: 404 });
+      return res.status(404).json({ message: "Driver Not found.", status: 404 });
     } else {
       const jobService = await jobApplicant.find({ $and: [{ $or: [{ emplyeerId: findUser._id }, { driverId: findUser._id, }] }, { status: "Approved" }] }).populate({ path: 'jobId' }).populate({ path: 'emplyeerId driverId', select: 'firstName lastName photoUpload' });
       if (jobService.length == 0) {
-        res.status(404).send({ status: 404, message: "Approved Job service not found.", data: {} });
+        return res.status(404).send({ status: 404, message: "Approved Job service not found.", data: {} });
       } else {
-        res.status(200).send({ status: 200, message: "All Approved Job data found successfully.", data: jobService });
+        return res.status(200).send({ status: 200, message: "All Approved Job data found successfully.", data: jobService });
       }
     }
   } catch (error) {
@@ -268,13 +268,13 @@ exports.getAllRejectJob = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "Driver Not found.", status: 404 });
+      return res.status(404).json({ message: "Driver Not found.", status: 404 });
     } else {
       const jobService = await jobApplicant.find({ $and: [{ $or: [{ emplyeerId: findUser._id }, { driverId: findUser._id, }] }, { status: "Reject" }] }).populate({ path: 'jobId' }).populate({ path: 'emplyeerId driverId', select: 'firstName lastName photoUpload' });
       if (jobService.length == 0) {
-        res.status(404).send({ status: 404, message: "Reject Job service not found.", data: {} });
+        return res.status(404).send({ status: 404, message: "Reject Job service not found.", data: {} });
       } else {
-        res.status(200).send({ status: 200, message: "All Reject Job data found successfully.", data: jobService });
+        return res.status(200).send({ status: 200, message: "All Reject Job data found successfully.", data: jobService });
       }
     }
   } catch (error) {
@@ -285,13 +285,13 @@ exports.getAllWithdrawJob = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "Driver Not found.", status: 404 });
+      return res.status(404).json({ message: "Driver Not found.", status: 404 });
     } else {
       const jobService = await jobApplicant.find({ $and: [{ $or: [{ emplyeerId: findUser._id }, { driverId: findUser._id, }] }, { status: "Withdraw" }] }).populate({ path: 'jobId' }).populate({ path: 'emplyeerId driverId', select: 'firstName lastName photoUpload' });
       if (jobService.length == 0) {
-        res.status(404).send({ status: 404, message: "Withdraw Job service not found.", data: {} });
+        return res.status(404).send({ status: 404, message: "Withdraw Job service not found.", data: {} });
       } else {
-        res.status(200).send({ status: 200, message: "All Withdraw Job data found successfully.", data: jobService });
+        return res.status(200).send({ status: 200, message: "All Withdraw Job data found successfully.", data: jobService });
       }
     }
   } catch (error) {
@@ -302,9 +302,9 @@ exports.getJobApplicantByjobId = async (req, res) => {
   try {
     const jobService = await jobApplicant.find({ jobId: req.params.jobId }).populate({ path: 'jobId' }).populate({ path: 'emplyeerId driverId', select: 'firstName lastName photoUpload' });
     if (jobService.length == 0) {
-      res.status(404).send({ status: 404, message: "Job application not found.", data: {} });
+      return res.status(404).send({ status: 404, message: "Job application not found.", data: {} });
     } else {
-      res.status(200).send({ status: 200, message: "All Job application data found successfully.", data: jobService });
+      return res.status(200).send({ status: 200, message: "All Job application data found successfully.", data: jobService });
     }
   } catch (error) {
     console.log(error);
@@ -315,9 +315,9 @@ exports.getJobApplicantById = async (req, res) => {
   try {
     const jobService = await jobApplicant.findById({ _id: req.params.id }).populate({ path: 'jobId' }).populate({ path: 'emplyeerId driverId', select: 'firstName lastName photoUpload' });
     if (!jobService) {
-      res.status(404).send({ status: 404, message: "Job Applicant not found.", data: {} });
+      return res.status(404).send({ status: 404, message: "Job Applicant not found.", data: {} });
     } else {
-      res.status(200).send({ status: 200, message: "Job Applicant data found successfully.", data: jobService });
+      return res.status(200).send({ status: 200, message: "Job Applicant data found successfully.", data: jobService });
     }
   } catch (error) {
     res.status(500).json({ status: 500, error: "Internal server error" });
@@ -327,23 +327,23 @@ exports.approvedRejectApplicantById = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "Driver Not found.", status: 404 });
+      return res.status(404).json({ message: "Driver Not found.", status: 404 });
     } else {
       const jobService = await jobApplicant.findById({ _id: req.params.id });
       if (!jobService) {
-        res.status(404).send({ status: 404, message: "Job Applicant not found.", data: {} });
+        return res.status(404).send({ status: 404, message: "Job Applicant not found.", data: {} });
       } else {
         if (jobService.emplyeerId == findUser._id) {
           if (req.body.status == "Approved") {
             const updatedJobService = await jobApplicant.findByIdAndUpdate({ _id: jobService._id }, { $set: { status: "Approved" } }, { new: true });
             if (updatedJobService) {
-              res.status(200).send({ status: 200, message: "Job application approved successfully.", data: updatedJobService });
+              return res.status(200).send({ status: 200, message: "Job application approved successfully.", data: updatedJobService });
             }
           }
           if (req.body.status == "Reject") {
             const updatedJobService = await jobApplicant.findByIdAndUpdate({ _id: jobService._id }, { $set: { status: "Reject" } }, { new: true });
             if (updatedJobService) {
-              res.status(200).send({ status: 200, message: "Job application Reject successfully.", data: updatedJobService });
+              return res.status(200).send({ status: 200, message: "Job application Reject successfully.", data: updatedJobService });
             }
           }
         }
@@ -351,7 +351,7 @@ exports.approvedRejectApplicantById = async (req, res) => {
           if (req.body.status == "Withdraw") {
             const updatedJobService = await jobApplicant.findByIdAndUpdate({ _id: jobService._id }, { $set: { status: "Withdraw" } }, { new: true });
             if (updatedJobService) {
-              res.status(200).send({ status: 200, message: "Job application Withdraw successfully.", data: updatedJobService });
+              return res.status(200).send({ status: 200, message: "Job application Withdraw successfully.", data: updatedJobService });
             }
           }
         }
@@ -365,11 +365,11 @@ exports.viewed_count = async (req, res) => {
   try {
     const jobService = await JobService.findById({ _id: req.params.id });
     if (!jobService) {
-      res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+      return res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
     } else {
       const updatedJobService = await JobService.findByIdAndUpdate({ _id: jobService._id }, { $set: { viewed_count: jobService.viewed_count + 1 } }, { new: true });
       if (updatedJobService) {
-        res.status(200).send({ status: 200, message: "Job view successfully.", data: updatedJobService });
+        return res.status(200).send({ status: 200, message: "Job view successfully.", data: updatedJobService });
       }
     }
   } catch (error) {
@@ -381,21 +381,21 @@ exports.addLike = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       const post = await JobService.findById({ _id: req.params.id });
       if (!post) {
-        res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
+        return res.status(404).send({ status: 404, message: "Job service not found.", data: {} });
       } else {
         if (post.likeUser.includes((findUser._id).toString())) {
           const update = await JobService.findByIdAndUpdate({ _id: post._id }, { $pull: { likeUser: (findUser._id).toString() }, $set: { likeCount: post.likeCount - 1 } }, { new: true });
           if (update) {
-            res.status(200).json({ status: 200, message: "Un like successfully", data: update });
+            return res.status(200).json({ status: 200, message: "Un like successfully", data: update });
           }
         } else {
           const update = await JobService.findByIdAndUpdate({ _id: post._id }, { $push: { likeUser: (findUser._id).toString() }, $set: { likeCount: post.likeCount + 1 } }, { new: true });
           if (update) {
-            res.status(200).json({ status: 200, message: "like add successfully", data: update });
+            return res.status(200).json({ status: 200, message: "like add successfully", data: update });
           }
         }
       }
@@ -409,7 +409,7 @@ exports.giveRatingToJob = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+      return res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
     } else {
       let findJob = await JobService.findOne({ _id: req.params.id });
       if (findJob) {
@@ -452,7 +452,7 @@ exports.giveRatingToJob = async (req, res) => {
               }
             }
           } else {
-            res.status(404).json({ message: "Rating topic Not found.", status: 404 });
+            return res.status(404).json({ message: "Rating topic Not found.", status: 404 });
           }
         } else {
           let findTopic = await ratingTopic.findById({ _id: req.body._id });
@@ -477,11 +477,11 @@ exports.giveRatingToJob = async (req, res) => {
               }
             }
           } else {
-            res.status(404).json({ message: "Rating topic Not found.", status: 404 });
+            return res.status(404).json({ message: "Rating topic Not found.", status: 404 });
           }
         }
       } else {
-        res.status(404).json({ message: "Job Not found.", status: 404 });
+        return res.status(404).json({ message: "Job Not found.", status: 404 });
       }
     }
   } catch (error) {

@@ -6,12 +6,12 @@ exports.createPost = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       req.body.userId = findUser._id;
       console.log(req.body);
       const newCategory = await PostModel.create(req.body);
-      res.status(200).send({ status: 200, message: "Post Create successfully.", data: newCategory });
+      return res.status(200).send({ status: 200, message: "Post Create successfully.", data: newCategory });
     }
   } catch (error) {
     console.error(error);
@@ -22,13 +22,13 @@ exports.getAllUserPost = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       const post = await PostModel.find({ userId: findUser._id }).populate({ path: 'userId likeUser Comment.user', select: 'firstName lastName photoUpload' });
       if (post.length == 0) {
-        res.status(404).json({ message: "Post Not found.", status: 404 });
+        return res.status(404).json({ message: "Post Not found.", status: 404 });
       }
-      res.status(200).send({ status: 200, message: "Post Found successfully.", data: post });
+      return res.status(200).send({ status: 200, message: "Post Found successfully.", data: post });
     }
   } catch (error) {
     console.error(error);
@@ -39,7 +39,7 @@ exports.getAllPosts = async (req, res) => {
   try {
     const posts = await PostModel.find().lean().populate({ path: 'userId likeUser Comment.user', select: 'firstName lastName photoUpload' });;
     if (posts.length == 0) {
-      res.status(404).json({ message: "Post Not found.", status: 404 });
+      return res.status(404).json({ message: "Post Not found.", status: 404 });
     }
     res.status(200).send({ status: 200, message: "Post Found successfully.", data: posts });
   } catch (error) {
@@ -52,7 +52,7 @@ exports.getPostById = async (req, res) => {
     const { id } = req.params;
     const posts = await PostModel.findById(id).populate({ path: 'userId likeUser Comment.user', select: 'firstName lastName photoUpload' });
     if (!posts) {
-      res.status(404).json({ message: "Post Not found.", status: 404 });
+      return res.status(404).json({ message: "Post Not found.", status: 404 });
     }
     res.status(200).send({ status: 200, message: "Post Found successfully.", data: posts });
   } catch (error) {
@@ -65,11 +65,11 @@ exports.updatePost = async (req, res) => {
     const { id } = req.params;
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       const posts = await PostModel.findById(id).populate({ path: 'userId likeUser Comment.user', select: 'firstName lastName photoUpload' });
       if (!posts) {
-        res.status(404).json({ message: "Post Not found.", status: 404 });
+        return res.status(404).json({ message: "Post Not found.", status: 404 });
       } else {
         let obj = {
           category: req.body.category || posts.category,
@@ -78,7 +78,7 @@ exports.updatePost = async (req, res) => {
         }
         const updatedPost = await PostModel.findByIdAndUpdate(id, { $set: obj }, { new: true });
         if (updatedPost) {
-          res.status(200).json({ status: 200, message: "Post Update.", data: updatedPost });
+          return res.status(200).json({ status: 200, message: "Post Update.", data: updatedPost });
         }
       }
     }
@@ -92,11 +92,11 @@ exports.deletePost = async (req, res) => {
     const { id } = req.params;
     const posts = await PostModel.findById(id).populate({ path: 'userId likeUser Comment.user', select: 'firstName lastName photoUpload' });
     if (!posts) {
-      res.status(404).json({ message: "Post Not found.", status: 404 });
+      return res.status(404).json({ message: "Post Not found.", status: 404 });
     } else {
       const deletedPost = await PostModel.findByIdAndDelete({ _id: posts._id });
       if (deletedPost) {
-        res.status(200).json({ message: 'Post deleted successfully' });
+        return res.status(200).json({ message: 'Post deleted successfully' });
       }
     }
   } catch (error) {
@@ -108,7 +108,7 @@ exports.addLike = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       const post = await PostModel.findById({ _id: req.params.id });
       if (!post) {
@@ -117,12 +117,12 @@ exports.addLike = async (req, res) => {
         if (post.likeUser.includes((findUser._id).toString())) {
           const update = await PostModel.findByIdAndUpdate({ _id: post._id }, { $pull: { likeUser: (findUser._id).toString() }, $set: { likeCount: post.likeCount - 1 } }, { new: true });
           if (update) {
-            res.status(200).json({ status: 200, message: "Un like successfully", data: update });
+            return res.status(200).json({ status: 200, message: "Un like successfully", data: update });
           }
         } else {
           const update = await PostModel.findByIdAndUpdate({ _id: post._id }, { $push: { likeUser: (findUser._id).toString() }, $set: { likeCount: post.likeCount + 1 } }, { new: true });
           if (update) {
-            res.status(200).json({ status: 200, message: "like add successfully", data: update });
+            return res.status(200).json({ status: 200, message: "like add successfully", data: update });
           }
         }
       }
@@ -137,7 +137,7 @@ exports.addComment = async (req, res) => {
     const { comment } = req.body;
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       const post = await PostModel.findById({ _id: req.params.id });
       if (!post) {
@@ -149,7 +149,7 @@ exports.addComment = async (req, res) => {
         }
         const update = await PostModel.findByIdAndUpdate({ _id: post._id }, { $push: { Comment: obj }, $set: { commentCount: post.commentCount + 1 } }, { new: true });
         if (update) {
-          res.status(200).json({ status: 200, message: "Comment add successfully", data: update });
+          return res.status(200).json({ status: 200, message: "Comment add successfully", data: update });
         }
       }
     }
@@ -163,11 +163,11 @@ exports.reportOnPost = async (req, res) => {
     const { id } = req.params;
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       const posts = await PostModel.findById(id);
       if (!posts) {
-        res.status(404).json({ message: "Post Not found.", status: 404 });
+        return res.status(404).json({ message: "Post Not found.", status: 404 });
       } else {
         const findReports = await report.findOne({ postId: id });
         if (!findReports) {
@@ -179,7 +179,7 @@ exports.reportOnPost = async (req, res) => {
           if (newCategory) {
             const updatedPost = await PostModel.findByIdAndUpdate(id, { $set: { reportCount: posts.reportCount + 1 } }, { new: true });
             if (updatedPost) {
-              res.status(200).json({ status: 200, message: "Report on post.", data: updatedPost });
+              return res.status(200).json({ status: 200, message: "Report on post.", data: updatedPost });
             }
           }
         } else {
@@ -188,7 +188,7 @@ exports.reportOnPost = async (req, res) => {
           if (newCategory) {
             const updatedPost = await PostModel.findByIdAndUpdate(id, { $set: { reportCount: posts.reportCount + 1 } }, { new: true });
             if (updatedPost) {
-              res.status(200).json({ status: 200, message: "Report on post.", data: updatedPost });
+              return res.status(200).json({ status: 200, message: "Report on post.", data: updatedPost });
             }
           }
         }
@@ -203,7 +203,7 @@ exports.getAllReport = async (req, res) => {
   try {
     const posts = await report.find().lean().populate('postId')
     if (posts.length == 0) {
-      res.status(404).json({ message: "All Report Not found.", status: 404 });
+      return res.status(404).json({ message: "All Report Not found.", status: 404 });
     }
     res.status(200).send({ status: 200, message: "All Report Found successfully.", data: posts });
   } catch (error) {
@@ -216,7 +216,7 @@ exports.viewReport = async (req, res) => {
   try {
     const posts = await report.findOne({ postId: req.params.postId }).populate('report.user');
     if (!posts) {
-      res.status(404).json({ message: "All Report Not found.", status: 404 });
+      return res.status(404).json({ message: "All Report Not found.", status: 404 });
     }
     res.status(200).send({ status: 200, message: "All Report Found successfully.", data: posts });
   } catch (error) {

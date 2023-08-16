@@ -19,9 +19,9 @@ exports.registration = async (req, res) => {
       let obj = { phone: phone, gender: gender, role: role, deviceToken: deviceToken, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp, otpVerification: false, refferalCode: refferalCode }
       const newUser = await userSchema.create(obj);
       const accessToken = jwt.sign({ id: newUser._id }, process.env.SECRET, { expiresIn: '24h', });
-      res.status(200).send({ message: "data created successfully", accessToken: accessToken, profileComplete: newUser.profileComplete, data: newUser });
+      return res.status(200).send({ message: "data created successfully", accessToken: accessToken, profileComplete: newUser.profileComplete, data: newUser });
     } else {
-      res.status(409).send({ status: 409, message: "User already exits.", data: {} });
+      return res.status(409).send({ status: 409, message: "User already exits.", data: {} });
     }
   } catch (err) {
     return res.status(500).json({ status: 500, message: err.message });
@@ -32,11 +32,11 @@ exports.login = async (req, res) => {
     const { phone, role, gender } = req.body;
     const data = await userSchema.findOne({ phone: phone, role: role });
     if (!data) {
-      res.status(404).send({ status: 404, message: "User not found.", data: {} });
+      return res.status(404).send({ status: 404, message: "User not found.", data: {} });
     } else {
       const otp = Math.floor(Math.random() * 1000000 + 1);
       let update = await userSchema.findByIdAndUpdate({ _id: data._id }, { $set: { gender: gender, otpVerification: false, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp } }, { new: true });
-      res.status(200).send({ message: "OTP sent successfully", data: update });
+      return res.status(200).send({ message: "OTP sent successfully", data: update });
     }
   } catch (err) {
     return res.status(500).json({ status: 500, message: err.message });
@@ -46,11 +46,11 @@ exports.resendOtp = async (req, res) => {
   try {
     const data = await userSchema.findOne({ _id: req.params.id });
     if (!data) {
-      res.status(404).send({ status: 404, message: "User not found.", data: {} });
+      return res.status(404).send({ status: 404, message: "User not found.", data: {} });
     } else {
       const otp = Math.floor(Math.random() * 1000000 + 1);
       let update = await userSchema.findByIdAndUpdate({ _id: data._id }, { $set: { otpVerification: false, otpExpire: new Date(Date.now() + 5 * 60 * 1000), otp: otp } }, { new: true });
-      res.status(200).send({ message: "OTP sent successfully", data: update });
+      return res.status(200).send({ message: "OTP sent successfully", data: update });
     }
   } catch (err) {
     return res.status(500).json({ status: 500, message: err.message });
@@ -78,7 +78,7 @@ exports.getProfile = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       return res.status(200).json({ msg: "Get user profile successfully", user: findUser });
     }
@@ -92,7 +92,7 @@ exports.createDriver = async (req, res) => {
     const { firstName, lastName, ResumeTitle, location, exactAddress, category, language, militaryService, DateOfBirth, licenseNumber, } = req.body;
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       let obj = {
         firstName: firstName || findUser.firstName,
@@ -108,7 +108,7 @@ exports.createDriver = async (req, res) => {
       };
       let update = await userSchema.findByIdAndUpdate({ _id: findUser._id }, { $set: obj }, { new: true });
       if (update) {
-        res.status(200).json({ message: "User Detail update.", status: 200, data: update });
+        return res.status(200).json({ message: "User Detail update.", status: 200, data: update });
       }
     }
   } catch (error) {
@@ -121,7 +121,7 @@ exports.updateExperience = async (req, res) => {
     const { experience } = req.body;
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       const driver = await userSchema.findOneAndUpdate({ _id: findUser._id }, { $push: { experience: experience } }, { new: true });
       return res.status(200).json({ status: 200, message: "Experiance detail update.", data: driver });
@@ -136,7 +136,7 @@ exports.updateDocument = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       let front = req.files['frontImage'];
       let back = req.files['backImage'];
@@ -167,7 +167,7 @@ exports.addharotp = async (req, res) => {
         ref_id: createdBeneficiary.ref_id,
       };
       let Save = await AadharMatch.create(obj);
-      res.status(200).json(Save);
+      return res.status(200).json(Save);
     }
 
   } catch (error) {
@@ -195,7 +195,7 @@ exports.userUpdateprofile = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       let fileUrl;
       if (req.file) {
@@ -214,7 +214,7 @@ exports.updateCompanyType = async (req, res) => {
     const { companyType } = req.body;
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       const driver = await userSchema.findOneAndUpdate({ _id: findUser._id }, { $set: { companyType: companyType } }, { new: true });
       return res.status(200).json({ status: 200, message: "Experiance detail update.", data: driver });
@@ -230,7 +230,7 @@ exports.updateEmployeeDetails = async (req, res) => {
     const { name, details, email, exactAddress, phone, website } = req.body;
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "User Not found.", status: 404 });
+      return res.status(404).json({ message: "User Not found.", status: 404 });
     } else {
       let obj = {
         name: name || findUser.name,
@@ -251,7 +251,7 @@ exports.followUnFollow = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+      return res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
     } else {
       let findUsers = await userSchema.findOne({ _id: req.params.id });
       if (findUsers) {
@@ -273,7 +273,7 @@ exports.followUnFollow = async (req, res) => {
           }
         }
       } else {
-        res.status(404).json({ message: "User Not found.", status: 404 });
+        return res.status(404).json({ message: "User Not found.", status: 404 });
       }
     }
   } catch (error) {
@@ -286,7 +286,7 @@ exports.giveRating = async (req, res) => {
   try {
     let findUser = await userSchema.findOne({ _id: req.user._id });
     if (!findUser) {
-      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+      return res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
     } else {
       let findUsers = await userSchema.findOne({ _id: req.params.id });
       if (findUsers) {
@@ -316,7 +316,7 @@ exports.giveRating = async (req, res) => {
           }
         }
       } else {
-        res.status(404).json({ message: "User Not found.", status: 404 });
+        return res.status(404).json({ message: "User Not found.", status: 404 });
       }
     }
   } catch (error) {
@@ -331,7 +331,7 @@ exports.CreatePayment = async (req, res) => {
   try {
     let userdata = await userSchema.findOne({ _id: req.user._id });
     if (!userdata) {
-      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+      return res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
     } else {
       const subscription = await SubscriptionSchema.findById({ _id: req.params.subscriptionId })//.populate("subscriptionId")
       if (!subscription) {
@@ -358,7 +358,7 @@ exports.verifyPayment = async (req, res) => {
   try {
     let userdata = await userSchema.findOne({ _id: req.user._id });
     if (!userdata) {
-      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+      return res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
     } else {
       const subscription = await payment.findOne({ subscriptionId: req.params.subscriptionId, userId: userdata._id, status: "pending" });
       if (!subscription) {
@@ -401,7 +401,7 @@ exports.addMoney = async (req, res) => {
         };
         const data1 = await payment.create(obj);
         if (data1) {
-          res.status(200).json({ status: 200, message: "Money has been added.", data: update, });
+          return res.status(200).json({ status: 200, message: "Money has been added.", data: update, });
         }
       }
     } else {
@@ -427,7 +427,7 @@ exports.removeMoney = async (req, res) => {
         };
         const data1 = await payment.create(obj);
         if (data1) {
-          res.status(200).json({ status: 200, message: "Money has been deducted.", data: update, });
+          return res.status(200).json({ status: 200, message: "Money has been deducted.", data: update, });
         }
       }
     } else {
@@ -442,7 +442,7 @@ exports.GetPaymentsByUser = async (req, res) => {
   try {
     let userdata = await userSchema.findOne({ _id: req.user._id });
     if (!userdata) {
-      res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
+      return res.status(404).json({ message: "Token Expired or invalid.", status: 404 });
     } else {
       const Data = await payment.find({ userId: userdata._id }).populate({ path: 'userId subscriptionId', select: 'firstName lastName photoUpload plan' });
       if (Data.length == 0) {
@@ -485,7 +485,7 @@ exports.addskill = async (req, res) => {
       };
       skill.push(obj);
       const data = await userSchema.findOneAndUpdate({ _id: findUser._id }, { $set: { skills: skill } }, { new: true });
-      res.status(200).send({ msg: "skill added", data: data });
+      return res.status(200).send({ msg: "skill added", data: data });
     } else {
       return res.status(404).send({ msg: "not found" });
     }
