@@ -109,10 +109,11 @@ exports.getJobServiceById = async (req, res) => {
 };
 exports.salarayAndExpectation = async (req, res) => {
   try {
-    const jobService = await JobService.findById({ _id: req.params._id });
+    const jobService = await JobService.findById({ _id: req.params.id });
     if (!jobService) {
       return res.status(404).json({ status: 404, message: "Job service not found" });
     } else {
+      console.log(jobService);
       let obj = {
         companyType: jobService.companyType,
         jobtitle: jobService.jobtitle,
