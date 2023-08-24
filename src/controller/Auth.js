@@ -154,21 +154,29 @@ exports.updateDocument = async (req, res) => {
 exports.addharotp = async (req, res) => {
   try {
     const { aadhaar_number } = req.body;
-    const newBeneficiary = new addharcard({ aadhaar_number });
-    const clientId = "CF458155CI63HMEOJF7QM277LKR0";
-    const clientSecret = "5a7d205372069c3fda85e52f8c3072b0ea4cc683";
-    const headers = { "x-api-version": "2023-03-01", "Content-Type": "application/json", "X-Client-ID": clientId, "X-Client-Secret": clientSecret, };
-    const response = await axios.post("https://api.cashfree.com/verification/offline-aadhaar/otp", newBeneficiary, { headers: headers, });
-    const createdBeneficiary = response.data;
-    if (createdBeneficiary) {
-      let obj = {
-        userId: req.user._id,
-        aadhaar_number: aadhaar_number,
-        ref_id: createdBeneficiary.ref_id,
-      };
-      let Save = await AadharMatch.create(obj);
-      return res.status(200).json(Save);
-    }
+    // const newBeneficiary = new addharcard({ aadhaar_number });
+    // const clientId = "CF458155CI63HMEOJF7QM277LKR0";
+    // const clientSecret = "5a7d205372069c3fda85e52f8c3072b0ea4cc683";
+    // const headers = { "x-api-version": "2023-03-01", "Content-Type": "application/json", "X-Client-ID": clientId, "X-Client-Secret": clientSecret, };
+    // const response = await axios.post("https://api.cashfree.com/verification/offline-aadhaar/otp", newBeneficiary, { headers: headers, });
+    // const createdBeneficiary = response.data;
+    // if (createdBeneficiary) {
+    // let obj = {
+    //   userId: req.user._id,
+    //   aadhaar_number: aadhaar_number,
+    //   ref_id: createdBeneficiary.ref_id,
+    // };
+    let ref_id = await reffralCode1()
+    let otp = await reffralCode2()
+    let obj = {
+      userId: req.user._id,
+      otp: otp,
+      aadhaar_number: aadhaar_number,
+      ref_id: ref_id,
+    };
+    let Save = await AadharMatch.create(obj);
+    return res.status(200).json(Save);
+    // }
 
   } catch (error) {
     console.log(error);
@@ -178,14 +186,18 @@ exports.addharotp = async (req, res) => {
 exports.verifyaddharotp = async (req, res) => {
   try {
     const { otp, ref_id } = req.body;
-    const newBeneficiary = new addharcard({ otp, ref_id });
-    const clientId = "CF458155CI63HMEOJF7QM277LKR0";
-    const clientSecret = "5a7d205372069c3fda85e52f8c3072b0ea4cc683";
-    const headers = { "x-api-version": "2023-03-01", "Content-Type": "application/json", "X-Client-ID": clientId, "X-Client-Secret": clientSecret, };
-    const response = await axios.post("https://api.cashfree.com/verification/offline-aadhaar/verify", newBeneficiary, { headers: headers, });
-    const createdBeneficiary = response.data;
-    console.log(createdBeneficiary)
-    res.status(201).json(createdBeneficiary);
+    // const newBeneficiary = new addharcard({ otp, ref_id });
+    // const clientId = "CF458155CI63HMEOJF7QM277LKR0";
+    // const clientSecret = "5a7d205372069c3fda85e52f8c3072b0ea4cc683";
+    // const headers = { "x-api-version": "2023-03-01", "Content-Type": "application/json", "X-Client-ID": clientId, "X-Client-Secret": clientSecret, };
+    // const response = await axios.post("https://api.cashfree.com/verification/offline-aadhaar/verify", newBeneficiary, { headers: headers, });
+    // const createdBeneficiary = response.data;
+    // console.log(createdBeneficiary)
+    const user = await AadharMatch.findOne({ ref_id: ref_id });
+    if (user.otp !== otp) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
+    res.status(201).json(user);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
@@ -502,6 +514,22 @@ const reffralCode = async () => {
   let OTP = '';
   for (let i = 0; i < 9; i++) {
     OTP += digits[Math.floor(Math.random() * 36)];
+  }
+  return OTP;
+}
+const reffralCode1 = async () => {
+  var digits = "0123456789012345678901234567890123456789";
+  let OTP = '';
+  for (let i = 0; i < 7; i++) {
+    OTP += digits[Math.floor(Math.random() * 40)];
+  }
+  return OTP;
+}
+const reffralCode2 = async () => {
+  var digits = "0123456789012345678901234567890123456789";
+  let OTP = '';
+  for (let i = 0; i < 6; i++) {
+    OTP += digits[Math.floor(Math.random() * 40)];
   }
   return OTP;
 }
